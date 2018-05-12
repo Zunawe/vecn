@@ -1,0 +1,15 @@
+{
+  "name": "vec",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "for t in ./test/test_*.js; do node $t; done"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "assert": "^1.4.1"
+  }
+}
