@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "for t in ./test/test_*.js; do node $t; done"
+    "test": "mocha -u tdd"
   },
   "author": "",
   "license": "MIT",
-  "devDependencies": {},
-  "dependencies": {
-    "assert": "^1.4.1"
-  }
+  "devDependencies": {
+    "mocha": "^5.1.1"
+  },
+  "dependencies": {}
 }

@@ -21,26 +21,34 @@ class vec extends Array{
 	}
 
 	plus(v){
-		v = new this.constructor(v);
-		assert(v.constructor === this.constructor, 'Argument must be a promotable to this vecType.')
+		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		if(typeof(v) === 'number'){
+			v = new this.constructor(v);
+		}
 		return this.map((x, i) => x + v[i]);
 	}
 
 	minus(v){
-		v = new this.constructor(v);
-		assert(v.constructor === this.constructor, 'Argument must be a promotable to this vecType.')
+		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		if(typeof(v) === 'number'){
+			v = new this.constructor(v);
+		}
 		return this.plus(v.neg());
 	}
 
 	times(v){
-		v = new this.constructor(v);
-		assert(v.constructor === this.constructor, 'Argument must be a promotable to this vecType.')
+		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		if(typeof(v) === 'number'){
+			v = new this.constructor(v);
+		}
 		return this.map((x, i) => x * v[i]);
 	}
 
 	div(v){
-		v = new this.constructor(v);
-		assert(v.constructor === this.constructor, 'Argument must be a promotable to this vecType.')
+		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		if(typeof(v) === 'number'){
+			v = new this.constructor(v);
+		}
 		return this.times(v.pow(-1));
 	}
 
@@ -60,6 +68,10 @@ class vec extends Array{
 }
 
 function newVecType(dimension){
+	assert(!isNaN(Number(dimension)), 'dimension must be coercible to a number.');
+	assert(Number(dimension) > 0, 'dimension must be greater than 0.');
+	assert(Number.isInteger(Number(dimension)), 'dimension must be an integer.');
+
 	return (
 		class extends vec{
 			constructor(...args){
@@ -86,7 +98,7 @@ function promoteArrayDimension(arr, dim){
 }
 
 // Debug
-module.exports = {newVecType, isIndex}
+module.exports = {newVecType}
 
 // Release
 // module.exports = {newVecType};
