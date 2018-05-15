@@ -1,13 +1,17 @@
 {
-  "name": "vec",
-  "version": "0.0.1",
-  "description": "",
+  "name": "vecn",
+  "version": "0.0.4",
+  "description": "A module for creating n-dimensional vector types that support swizzling.",
   "main": "index.js",
   "scripts": {
     "test": "mocha -u tdd"
   },
-  "author": "",
+  "author": "Bryce Wilson",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zunawe/vecn"
+  },
   "devDependencies": {
     "mocha": "^5.1.1"
   },

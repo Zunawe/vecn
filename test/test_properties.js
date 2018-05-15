@@ -1,7 +1,7 @@
 const assert = require('assert');
-const vec = require('../index.js');
+const vecn = require('../index.js');
 
-const {vec3} = vec;
+const {vec3} = vecn;
 
 suite('enumerables', function (){
 	var v;
@@ -32,12 +32,6 @@ suite('enumerables', function (){
 });
 
 suite('extensibility', function (){
-	var vec3;
-
-	setup(function (){
-		vec3 = vec.newVecType(3);
-	});
-
 	test('should allow modification of indices', function (){
 		var v = new vec3(1, 2, 3);
 		v[1] = 5;
@@ -58,35 +52,27 @@ suite('extensibility', function (){
 });
 
 suite('fallbacks for incompatible methods', function (){
-	var vec3;
-
-	setup(function (){
-		vec3 = vec.newVecType(3);
-	});
-
 	test('should stay vec if map maps to all numbers', function (){
 		var v = new vec3(1, 2, 3);
 		var result = v.map((n) => Math.sqrt(n));
-		assert(vec.isVec(result));
+		assert(vecn.isVec(result));
 	});
 	test('should NOT stay vec if map maps to non-numbers', function (){
 		var v = new vec3(1, 2, 3);
 		var result = v.map((n) => n > 0);
-		assert(!vec.isVec(result));
+		assert(!vecn.isVec(result));
 	});
 	test('should NOT stay vec when calling concat', function (){
 		var v = new vec3(1, 2, 3);
 		var result = v.concat(v);
-		assert(!vec.isVec(result));
+		assert(!vecn.isVec(result));
 	});
 });
 
 suite('illegal methods', function (){
-	var vec3;
 	var v;
 
 	setup(function (){
-		vec3 = vec.newVecType(3);
 		v = new vec3(1, 2, 3);
 	});
 

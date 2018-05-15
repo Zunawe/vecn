@@ -1,14 +1,14 @@
-const vec = require('../index.js');
+const vecn = require('../index.js');
 const assert = require('assert');
 
-const {vec3, vec4} = vec;
+const {vec3, vec4} = vecn;
 
 suite('swizzle', function (){
 	var vec5;
 	var v1, v2, v3;
 
 	setup(function (){
-		vec5 = vec.newVecType(5);
+		vec5 = vecn.newVecType(5);
 
 		v1 = vec3(1, 2, 3);
 		v2 = vec4(4, 5, 6, 7);

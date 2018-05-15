@@ -1,7 +1,7 @@
 const assert = require('assert');
-const vec = require('../index.js');
+const vecn = require('../index.js');
 
-const {vec2, vec3} = vec;
+const {vec2, vec3} = vecn;
 
 suite('arithmetic', function (){
 	var v1, v2;
