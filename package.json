@@ -15,5 +15,7 @@
   "devDependencies": {
     "mocha": "^5.1.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "assert": "^1.4.1"
+  }
 }

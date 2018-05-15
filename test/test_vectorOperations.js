@@ -139,8 +139,20 @@ suite('vector math', function (){
 	});
 
 	suite('normalize', function (){
-		test('should correctly dot vectors', function (){
+		test('should correctly normalize vectors', function (){
 			assert.deepEqual(v1.normalize(), new vec3(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)));
+		});
+	});
+
+	suite('proxy creation', function (){
+		test('should always return proxied vector', function (){
+			assert(v1.neg().x !== undefined);
+			assert(v1.plus(v2).x !== undefined);
+			assert(v1.minus(v2).x !== undefined);
+			assert(v1.times(v2).x !== undefined);
+			assert(v1.div(v2).x !== undefined);
+			assert(v1.pow(2).x !== undefined);
+			assert(v1.normalize().x !== undefined);
 		});
 	});
 });
