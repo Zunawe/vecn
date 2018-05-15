@@ -1,17 +1,16 @@
 const assert = require('assert');
-const {newVecType} = require('../index.js');
+const vec = require('../index.js');
+
+const {vec2, vec3} = vec;
 
 suite('arithmetic', function (){
-	var vec3;
 	var v1, v2;
 	var v3;
 
 	setup(function (){
-		vec3 = newVecType(3);
 		v1 = new vec3(1, 2, 3);
 		v2 = new vec3(-0.1, 0.2, -0.3);
 
-		vec2 = newVecType(2);
 		v3 = new vec2(10, 20);
 	});
 
@@ -114,6 +113,34 @@ suite('arithmetic', function (){
 		});
 		test('should raise each component by a scalar exponent', function (){
 			assert.deepEqual(v1.pow(2), new vec3(1, 4, 9));
+		});
+	});
+});
+
+suite('vector math', function (){
+	var v1, v2;
+
+	setup(function (){
+		v1 = vec3(1, 2, 3);
+		v2 = vec3(-1, 1, 1);
+	});
+
+	suite('magnitude', function (){
+		test('should correctly get magnitude', function (){
+			assert.equal(v1.magnitude, Math.sqrt(1 + 4 + 9));
+			assert.equal(v2.magnitude, Math.sqrt(3));
+		});
+	});
+
+	suite('dot', function (){
+		test('should correctly dot vectors', function (){
+			assert.equal(v1.dot(v2), 4);
+		});
+	});
+
+	suite('normalize', function (){
+		test('should correctly dot vectors', function (){
+			assert.deepEqual(v1.normalize(), new vec3(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)));
 		});
 	});
 });

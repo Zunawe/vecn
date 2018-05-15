@@ -1,13 +1,13 @@
 const assert = require('assert');
 const vec = require('../index.js');
 
+const {vec3} = vec;
+
 suite('enumerables', function (){
-	var vec3;
 	var v;
 	var enumerations;
 
 	setup(function (){
-		vec3 = vec.newVecType(3);
 		v = new vec3(1, 2, 3);
 		enumerations = [];
 		for(i in v){
@@ -78,5 +78,28 @@ suite('fallbacks for incompatible methods', function (){
 		var v = new vec3(1, 2, 3);
 		var result = v.concat(v);
 		assert(!vec.isVec(result));
+	});
+});
+
+suite('illegal methods', function (){
+	var vec3;
+	var v;
+
+	setup(function (){
+		vec3 = vec.newVecType(3);
+		v = new vec3(1, 2, 3);
+	});
+
+	test('should disallow direct calls to push', function (){
+		assert(v.push === undefined);
+	});
+	test('should disallow direct calls to pop', function (){
+		assert(v.pop === undefined);
+	});
+	test('should disallow direct calls to shift', function (){
+		assert(v.shift === undefined);
+	});
+	test('should disallow direct calls to unshift', function (){
+		assert(v.unshift === undefined);
 	});
 });

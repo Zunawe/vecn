@@ -1,14 +1,7 @@
 const assert = require('assert');
-const {newVecType} = require('../index.js');
+const {vec2, vec3} = require('../index.js');
 
 suite('vecType constructors', function (){
-	var vec2, vec3;
-
-	setup(function (){
-		vec2 = newVecType(2);
-		vec3 = newVecType(3);
-	});
-
 	test('should accept empty constructor', function (){
 		assert.doesNotThrow(() => new vec3());
 	});

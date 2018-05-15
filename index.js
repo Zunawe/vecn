@@ -16,6 +16,10 @@ class vecn extends Array{
 		super(...args);
 	}
 
+	get magnitude(){
+		return Math.sqrt(this.pow(2).sum());
+	}
+
 	neg(){
 		return this.times(-1);
 	}
@@ -58,12 +62,24 @@ class vecn extends Array{
 
 	dot(v){
 		assert(v instanceof this.constructor);
-		assert(v.constructor === this.constructor, 'Argument must be of the same vecType.')
+		assert(v.constructor === this.constructor, 'Argument must be of the same vecType.');
 		return this.reduce((acc, x, i) => acc + (x * v[i]), 0);
+	}
+
+	sum(){
+		return this.reduce((acc, n) => acc + n, 0);
+	}
+
+	normalize(){
+		return this.div(this.magnitude);
 	}
 
 	concat(...values){
 		return super.concat(...values).toArray();
+	}
+
+	filter(callbackfn){
+		return super.filter(callbackfn).toArray();
 	}
 
 	map(callbackfn){
@@ -74,9 +90,40 @@ class vecn extends Array{
 		return result.toArray();
 	}
 
+	slice(...args){
+		return super.slice(...args).toArray();
+	}
+
+	splice(...args){
+		return super.splice(...args).toArray();
+	}
+
 	toArray(){
 		return Array.from(this);
 	}
+}
+
+const namedIndices = {
+	x: 0,
+	y: 1,
+	z: 2,
+	w: 3
+};
+function swizzle(v, s){
+	var dim = v.dim;
+	var newDim = s.length;
+
+	if(newDim === 1){
+		return v[namedIndices[s]];
+	}
+
+	var vecType = newVecType(newDim);
+
+	var values = s.split('').reduce((acc, x) => {
+		var i = namedIndices[x];
+		return acc && i < v.dim ? acc.concat([v[i]]) : undefined;
+	}, []);
+	return values ? new vecType(...values) : values;
 }
 
 function newVecType(dimension){
@@ -103,13 +150,13 @@ function newVecType(dimension){
 		}
 	};
 
-	var bannedFunctions = [];
+	var bannedFunctions = ['pop', 'push', 'shift', 'unshift'];
 
 	return (function (...args){
 		var target = new temp[classname](...args);
 		var validator = {
 			set: function (obj, prop, value){
-				if(prop === 'length'){
+				if(prop === 'length' || prop === 'magnitude'){
 					return false;
 				}
 
@@ -119,6 +166,9 @@ function newVecType(dimension){
 			get: function (obj, prop){
 				if(bannedFunctions.includes(prop)){
 					return undefined;
+				}
+				if(obj.dim < 5 && prop.toString().split('').every((c) => c in namedIndices)){
+					return swizzle(obj, prop);
 				}
 
 				return obj[prop];
@@ -146,8 +196,31 @@ function promoteArrayDimension(arr, dim){
 	return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0);
 }
 
-// Debug
-module.exports = {newVecType, isVec}
+function swizzle(v, s){
+	const lookup = {
+		x: 0,
+		y: 1,
+		z: 2,
+		w: 3
+	};
+	var dim = v.dim;
+	var newDim = s.length;
 
-// Release
-// module.exports = {newVecType};
+	if(newDim === 1){
+		return v[lookup[s]];
+	}
+
+	var vecType = newVecType(newDim);
+
+	var values = s.split('').reduce((acc, x) => {
+		var i = lookup[x];
+		return acc && i < v.dim ? acc.concat([v[i]]) : undefined;
+	}, []);
+	return values ? new vecType(...values) : values;
+}
+
+const vec2 = newVecType(2);
+const vec3 = newVecType(3);
+const vec4 = newVecType(4);
+
+module.exports = {newVecType, isVec, vec2, vec3, vec4}
