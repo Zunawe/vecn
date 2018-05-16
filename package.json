@@ -2,9 +2,10 @@
   "name": "vecn",
   "version": "0.0.6",
   "description": "A module for creating n-dimensional vector types that support swizzling.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "mocha -u tdd"
+    "test": "mocha -u tdd",
+    "doc": "jsdoc src -d doc --package ./package.json --readme ./README.md"
   },
   "author": "Bryce Wilson",
   "license": "MIT",

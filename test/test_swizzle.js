@@ -1,5 +1,5 @@
-const vecn = require('../index.js');
 const assert = require('assert');
+const vecn = require('../src/index.js');
 
 const {vec3, vec4} = vecn;
 

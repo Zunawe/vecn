@@ -1,5 +1,5 @@
 const assert = require('assert');
-const {vec2, vec3} = require('../index.js');
+const {vec2, vec3} = require('../src/index.js');
 
 suite('vecType constructors', function (){
 	test('should accept empty constructor', function (){
