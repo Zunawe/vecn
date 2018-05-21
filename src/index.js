@@ -19,6 +19,7 @@ class vecn extends Array{
 	 * @param {number[]} [args=[]] The numbers to be put in the vector.
 	 */
 	constructor(dimension, args){
+		args = flattenOuter(args);
 		assert(args.every((x) => typeof(x) === 'number'), 'All arguments must be numbers.');
 		assert(args.length === 0 || args.length === 1 || args.length === dimension,
 			'Argument list must be empty, have a single number, or have a length equal to the dimension.');
@@ -69,69 +70,69 @@ class vecn extends Array{
 	 * @returns {vecn} A new vector where all elements are negated.
 	 */
 	neg(){
-		return new vecTypes[this.dim](this.times(-1));
+		return vecTypes[this.dim](this.times(-1));
 	}
 
 	/**
 	 * Returns a vector where v is added to the components of this vector. If v
 	 * is a single number, it is added to each component. If v is a vector, the
 	 * vectors are added componentwise.
-	 * @param {number|vecn} v The value to add to this vector.
+	 * @param {number|Array} v The value to add to this vector.
 	 * 
 	 * @returns {vecn} A new vector with the summed components.
 	 */
 	plus(v){
-		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
 		if(typeof(v) === 'number'){
-			v = new vecTypes[this.dim](v);
+			v = Array(this.dim).fill(v);
 		}
-		return new vecTypes[this.dim](this.map((x, i) => x + v[i]));
+		return vecTypes[this.dim](this.map((x, i) => x + v[i]));
 	}
 
 	/**
 	 * Returns a vector where v is subtracted from the components of this
 	 * vector. If v is a single number, it is subtracted to each component. If v
 	 * is a vector, the vectors are combined componentwise.
-	 * @param {number|vecn} v The value to subtract from this vector.
+	 * @param {number|Array} v The value to subtract from this vector.
 	 * 
 	 * @returns {vecn} A new vector with the combined components.
 	 */
 	minus(v){
-		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
 		if(typeof(v) === 'number'){
-			v = new vecTypes[this.dim](v);
+			v = Array(this.dim).fill(v);
 		}
-		return new vecTypes[this.dim](this.plus(v.neg()));
+		return vecTypes[this.dim](this.neg().plus(v).neg());
 	}
 
 	/**
 	 * Returns a vector where v and this are multiplied componentwise. If v is
 	 * a single number, the vector is scaled by v.
-	 * @param {number|vecn} v The value to multiply with.
+	 * @param {number|Array} v The value to multiply with.
 	 * 
 	 * @returns {vecn} A new vector with the multiplied components.
 	 */
 	times(v){
-		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
 		if(typeof(v) === 'number'){
-			v = new vecTypes[this.dim](v);
+			v = Array(this.dim).fill(v);
 		}
-		return new vecTypes[this.dim](this.map((x, i) => x * v[i]));
+		return vecTypes[this.dim](this.map((x, i) => x * v[i]));
 	}
 
 	/**
 	 * Returns a vector where this is divided by v componentwise. If v is
 	 * a single number, the vector is scaled by 1/v.
-	 * @param {number|vecn} v The value to multiply with.
+	 * @param {number|Array} v The value to multiply with.
 	 * 
 	 * @returns {vecn} A new vector with the divided components.
 	 */
 	div(v){
-		assert(v instanceof this.constructor || typeof(v) === 'number', 'Argument must be a scalar or of this vecType.');
+		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
 		if(typeof(v) === 'number'){
-			v = new vecTypes[this.dim](v);
+			v = Array(this.dim).fill(v);
 		}
-		return new vecTypes[this.dim](this.times(v.pow(-1)));
+		return vecTypes[this.dim](this.pow(-1).times(v).pow(-1));
 	}
 
 	/**
@@ -141,17 +142,20 @@ class vecn extends Array{
 	 * @returns {vecn} A new vector with the exponentiated components.
 	 */
 	pow(p){
-		return new vecTypes[this.dim](this.map((x) => Math.pow(x, p)));
+		return vecTypes[this.dim](this.map((x) => Math.pow(x, p)));
 	}
 
 	/**
 	 * Dots two vectors.
-	 * @param {vecn} v The vector to dot with this one.
+	 * @param {Array} v The vector to dot with this one.
 	 * 
 	 * @returns {number} The dot product between this and v.
 	 */
 	dot(v){
-		assert(v instanceof this.constructor, 'Argument must be of the same vecType.');
+		assert(v.length === this.dim, 'Argument must be of the same dimension.');
+		if(typeof(v) === 'number'){
+			v = Array(this.dim).fill(v);
+		}
 		return this.reduce((acc, x, i) => acc + (x * v[i]), 0);
 	}
 
@@ -170,7 +174,7 @@ class vecn extends Array{
 	 * @returns {vecn} A new vector with scaled components.
 	 */
 	normalize(){
-		return new vecTypes[this.dim](this.div(this.magnitude));
+		return vecTypes[this.dim](this.div(this.magnitude));
 	}
 
 	/**
@@ -191,8 +195,8 @@ class vecn extends Array{
 	 * Same as Array.prototype.concat, but if the result does not contain only
 	 * numbers, returns an Array instead.
 	 */
-	map(callbackfn){
-		var result = super.map(callbackfn);
+	map(...args){
+		var result = super.map(...args);
 		if(result.every((n) => typeof(n) === 'number')){
 			return result;
 		}
@@ -362,6 +366,16 @@ function isIndex(n){
  */
 function promoteArrayDimension(arr, dim){
 	return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0);
+}
+
+function flattenOuter(arr){
+	if(!(arr instanceof Array) || arr.length !== 1){
+		return arr;
+	}
+	if(arr[0] instanceof Array){
+		return flattenOuter(arr[0]);
+	}
+	return arr;
 }
 
 newVecType(2);

@@ -156,3 +156,20 @@ suite('vector math', function (){
 		});
 	});
 });
+
+suite('liberal inputs', function (){
+	var v1;
+
+	setup(function (){
+		v1 = vec3(1, 2, 3);
+	});
+
+	test('should take arrays for operations', function (){
+		assert.doesNotThrow(() => v1.plus([5, 6, 7]));
+		assert.doesNotThrow(() => v1.minus([5, 6, 7]));
+		assert.doesNotThrow(() => v1.times([5, 6, 7]));
+		assert.doesNotThrow(() => v1.div([5, 6, 7]));
+		assert.doesNotThrow(() => v1.dot([5, 6, 7]));
+		assert.throws(() => v1.plus([5, 6, 7, 8]), Error);
+	});
+})
