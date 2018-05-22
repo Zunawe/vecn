@@ -28,7 +28,7 @@ class vecn extends Array{
 			args = [0];
 		}
 		if(args.length === 1){
-			args = [...Array(dimension)].map((x) => args[0]);
+			args = Array(dimension).fill(args[0]);
 		}
 
 		super(...args);
@@ -54,15 +54,49 @@ class vecn extends Array{
 	}
 
 	/**
-	 * Gets the L2 norm of the vector.
+	 * Gets the L2 norm (Euclidian norm) of the vector.
 	 * @returns {number} The L2 norm of the vector.
 	 */
 	get magnitude(){
-		return Math.sqrt(this.pow(2).sum());
+		return this.pnorm(2);
 	}
 
 	set magnitude(newVal){
 		// Empty
+	}
+
+	//--------------------------------------------------------------------------
+	//   Arithmetic
+
+	/**
+	 * Returns a vector where this is divided by v componentwise. If v is
+	 * a single number, the vector is scaled by 1/v.
+	 * @param {number|Array} v The value to multiply with.
+	 * 
+	 * @returns {vecn} A new vector with the divided components.
+	 */
+	div(v){
+		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
+		if(typeof(v) === 'number'){
+			v = Array(this.dim).fill(v);
+		}
+		return vecTypes[this.dim](this.pow(-1).times(v).pow(-1));
+	}
+
+	/**
+	 * Returns a vector where v is subtracted from the components of this
+	 * vector. If v is a single number, it is subtracted to each component. If v
+	 * is a vector, the vectors are combined componentwise.
+	 * @param {number|Array} v The value to subtract from this vector.
+	 * 
+	 * @returns {vecn} A new vector with the combined components.
+	 */
+	minus(v){
+		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
+		if(typeof(v) === 'number'){
+			v = Array(this.dim).fill(v);
+		}
+		return vecTypes[this.dim](this.neg().plus(v).neg());
 	}
 
 	/**
@@ -90,19 +124,13 @@ class vecn extends Array{
 	}
 
 	/**
-	 * Returns a vector where v is subtracted from the components of this
-	 * vector. If v is a single number, it is subtracted to each component. If v
-	 * is a vector, the vectors are combined componentwise.
-	 * @param {number|Array} v The value to subtract from this vector.
+	 * Returns a vector where each component of this was raised to a power p.
+	 * @param {number} p The power to raise each component by.
 	 * 
-	 * @returns {vecn} A new vector with the combined components.
+	 * @returns {vecn} A new vector with the exponentiated components.
 	 */
-	minus(v){
-		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
-		if(typeof(v) === 'number'){
-			v = Array(this.dim).fill(v);
-		}
-		return vecTypes[this.dim](this.neg().plus(v).neg());
+	pow(p){
+		return vecTypes[this.dim](this.map((x) => Math.pow(x, p)));
 	}
 
 	/**
@@ -120,30 +148,8 @@ class vecn extends Array{
 		return vecTypes[this.dim](this.map((x, i) => x * v[i]));
 	}
 
-	/**
-	 * Returns a vector where this is divided by v componentwise. If v is
-	 * a single number, the vector is scaled by 1/v.
-	 * @param {number|Array} v The value to multiply with.
-	 * 
-	 * @returns {vecn} A new vector with the divided components.
-	 */
-	div(v){
-		assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
-		if(typeof(v) === 'number'){
-			v = Array(this.dim).fill(v);
-		}
-		return vecTypes[this.dim](this.pow(-1).times(v).pow(-1));
-	}
-
-	/**
-	 * Returns a vector where each component of this was raised to a power p.
-	 * @param {number} p The power to raise each component by.
-	 * 
-	 * @returns {vecn} A new vector with the exponentiated components.
-	 */
-	pow(p){
-		return vecTypes[this.dim](this.map((x) => Math.pow(x, p)));
-	}
+	//--------------------------------------------------------------------------
+	//   Vector Operations
 
 	/**
 	 * Dots two vectors.
@@ -160,6 +166,28 @@ class vecn extends Array{
 	}
 
 	/**
+	 * Scales this vector to a magnitude of 1.
+	 * 
+	 * @returns {vecn} A new vector with scaled components.
+	 */
+	normalize(){
+		return vecTypes[this.dim](this.div(this.magnitude));
+	}
+
+	/**
+	 * Evaluates the p-norm (or lp-norm) of this vector.
+	 * @param {number} p The p-value to evaluate.
+	 * 
+	 * @returns {number} The norm of this vector.
+	 */
+	pnorm(p){
+		return Math.pow(this.map(Math.abs).pow(p).sum(), 1 / p);
+	}
+
+	//*************************************************************************
+	//   Extras
+
+	/**
 	 * Sums the components of this vector.
 	 * 
 	 * @returns {number} The sum of the components of this vector.
@@ -168,14 +196,8 @@ class vecn extends Array{
 		return this.reduce((acc, n) => acc + n, 0);
 	}
 
-	/**
-	 * Scales this vector to a magnitude of 1.
-	 * 
-	 * @returns {vecn} A new vector with scaled components.
-	 */
-	normalize(){
-		return vecTypes[this.dim](this.div(this.magnitude));
-	}
+	//--------------------------------------------------------------------------
+	//   Array Overrides
 
 	/**
 	 * Same as Array.prototype.concat, but always returns an Array.

@@ -144,6 +144,15 @@ suite('vector math', function (){
 		});
 	});
 
+	suite('pnorm', function (){
+		test('should get p-norms for vectors', function (){
+			assert.equal(v2.pnorm(1), 3);
+			assert.equal(v1.pnorm(2), 3.7416573867739413);
+			assert.equal(v1.pnorm(3), 3.3019272488946263);
+			assert.equal(v2.pnorm(3), 1.4422495703074083);
+		});
+	});
+
 	suite('proxy creation', function (){
 		test('should always return proxied vector', function (){
 			assert(v1.neg().x !== undefined);
@@ -157,19 +166,40 @@ suite('vector math', function (){
 	});
 });
 
-suite('liberal inputs', function (){
-	var v1;
+suite('extras', function (){
+	var v;
 
 	setup(function (){
-		v1 = vec3(1, 2, 3);
+		v = vec3(1, 5, 5);
+	});
+
+	test('sum', function (){
+		assert.equal(v.sum(), 11);
+	});
+	test.skip('argmax', function (){
+		assert.deepEqual(v.argmax(), [1, 2]);
+	});
+	test.skip('argmin', function (){
+		assert.deepEqual(v.argmin(), [0]);
+	});
+	test.skip('choose', function (){
+		assert.deepEqual(v.choose([2, 0]), vec2(5, 1));
+	});
+});
+
+suite('liberal inputs', function (){
+	var v;
+
+	setup(function (){
+		v = vec3(1, 2, 3);
 	});
 
 	test('should take arrays for operations', function (){
-		assert.doesNotThrow(() => v1.plus([5, 6, 7]));
-		assert.doesNotThrow(() => v1.minus([5, 6, 7]));
-		assert.doesNotThrow(() => v1.times([5, 6, 7]));
-		assert.doesNotThrow(() => v1.div([5, 6, 7]));
-		assert.doesNotThrow(() => v1.dot([5, 6, 7]));
-		assert.throws(() => v1.plus([5, 6, 7, 8]), Error);
+		assert.doesNotThrow(() => v.plus([5, 6, 7]));
+		assert.doesNotThrow(() => v.minus([5, 6, 7]));
+		assert.doesNotThrow(() => v.times([5, 6, 7]));
+		assert.doesNotThrow(() => v.div([5, 6, 7]));
+		assert.doesNotThrow(() => v.dot([5, 6, 7]));
+		assert.throws(() => v.plus([5, 6, 7, 8]), Error);
 	});
-})
+});
