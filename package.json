@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha -u tdd",
-    "doc": "jsdoc src -d doc --package ./package.json --readme ./README.md"
+    "docs": "jsdoc src -d docs --package ./package.json --readme ./README.md"
   },
   "author": "Bryce Wilson",
   "license": "MIT",

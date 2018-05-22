@@ -1,8 +1,16 @@
 # vecn
 
+[![Build Status](https://travis-ci.org/Zunawe/vecn.svg?branch=master)](https://travis-ci.org/Zunawe/vecn)
+
 > A module for creating n-dimensional vector types that support swizzling.
 
 Allows for the creation of vectors of arbitrary dimension that are also JavaScript `Arrays`. These arrays are fixed-length and accept only numbers as input, though they generally decay gracefully into regular `Arrays`. For example, you're allowed to use `map`, `reduce`, `concat`, and other `Array` methods, and if the result is a valid `vec`, a `vec` will be returned. Otherwise, you'll get back a standard `Array` with the new elements. These are specifically overloaded methods, so experimental, custom, and rebound methods aren't guaranteed to work.
+
+## Install
+
+```
+$ npm install vecn
+```
 
 ## Usage
 
@@ -65,9 +73,3 @@ v1.constructor === vec2;     // False
 ```
 
 Basically this allows for swizzling and lets me extend `Array` without letting the user mess with the length.
-
-## Install
-
-```
-$ npm install vecn
-```
