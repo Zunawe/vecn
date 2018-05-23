@@ -2,6 +2,13 @@
   "name": "vecn",
   "version": "1.0.0",
   "description": "A module for creating n-dimensional vector types that support swizzling.",
+  "keywords": [
+    "math",
+    "vector",
+    "swizzling",
+    "javascript",
+    "array"
+  ],
   "main": "src/index.js",
   "scripts": {
     "test": "mocha -u tdd",
