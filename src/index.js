@@ -188,6 +188,57 @@ class vecn extends Array{
 	//   Extras
 
 	/**
+	 * Finds the indices of the max value in this vector.
+	 * 
+	 * @returns {Array} An array of indices corresponding to the max values.
+	 */
+	argmax(){
+		var maxVal = this.max();
+		return this.reduce((acc, n, i) => n === maxVal ? acc.concat([i]) : acc, []);
+	}
+
+	/**
+	 * Finds the indices of the min value in this vector.
+	 * 
+	 * @returns {Array} An array of indices corresponding to the min values.
+	 */
+	argmin(){
+		var minVal = this.min();
+		return this.reduce((acc, n, i) => n === minVal ? acc.concat([i]) : acc, []);
+	}
+
+	/**
+	 * Creates a new vector from the provided indices of this one. Basically
+	 * equivalent to swizzling.
+	 * @param {Array} indices The indices to select into a new vector.
+	 * 
+	 * @returns {vecn} A new vector from the provided indices.
+	 */
+	choose(indices){
+		var v = [];
+		indices.forEach((i) => v.push(this[i]));
+		return vecTypes[v.length](v);
+	}
+
+	/**
+	 * Returns the max value of this vector.
+	 * 
+	 * @returns {number} The max value of this vector.
+	 */
+	max(){
+		return Math.max(...this);
+	}
+
+	/**
+	 * Returns the min value of this vector.
+	 * 
+	 * @returns {number} The min value of this vector.
+	 */
+	min(){
+		return Math.min(...this);
+	}
+
+	/**
 	 * Sums the components of this vector.
 	 * 
 	 * @returns {number} The sum of the components of this vector.

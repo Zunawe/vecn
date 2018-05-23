@@ -176,14 +176,20 @@ suite('extras', function (){
 	test('sum', function (){
 		assert.equal(v.sum(), 11);
 	});
-	test.skip('argmax', function (){
+	test('argmax', function (){
 		assert.deepEqual(v.argmax(), [1, 2]);
 	});
-	test.skip('argmin', function (){
+	test('argmin', function (){
 		assert.deepEqual(v.argmin(), [0]);
 	});
-	test.skip('choose', function (){
+	test('choose', function (){
 		assert.deepEqual(v.choose([2, 0]), vec2(5, 1));
+	});
+	test('max', function (){
+		assert.equal(v.max(), 5);
+	});
+	test('min', function (){
+		assert.equal(v.min(), 1);
 	});
 });
 
