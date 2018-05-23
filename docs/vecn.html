@@ -1,74 +1,120 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>JSDoc: Class: vecn</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>vecn Class: vecn</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.slate.css">
+
 </head>
 
 <body>
 
-<div id="main">
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">vecn</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="vecn.html">vecn</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#isVec">isVec</a></li><li><a href="global.html#newVecType">newVecType</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
 
-    <h1 class="page-title">Class: vecn</h1>
-
-    
-
+</div>
+</div>
 
 
+<div class="container" id="toc-content">
+<div class="row">
 
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Class: vecn</h1>
 <section>
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>vecn<span class="signature">(dimension, args<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2>
+        vecn
+        </h2>
         
-            <div class="class-description">A class for fixed-size vectors of numbers.</div>
+            <div class="class-description"><p>A class for fixed-size vectors of numbers.</p></div>
         
     
 </header>
+
 
 <article>
     <div class="container-overview">
     
         
+<hr>
+<dt>
+    <h4 class="name" id="vecn"><span class="type-signature"></span>new vecn(dimension [, args])</h4>
+    
+    
+</dt>
+<dd>
 
     
-    <h2>Constructor</h2>
+    <div class="description">
+        <p>Creates a vecn of the specified dimension. This should never be called<br>by the user (as if this were an abstract class).</p>
+    </div>
     
 
     
-    <h4 class="name" id="vecn"><span class="type-signature"></span>new vecn<span class="signature">(dimension, args<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
 
     
 
-
-
-<div class="description">
-    Creates a vecn of the specified dimension. This should never be called
-by the user as if this were an abstract class.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
+    
+        <h5>Parameters:</h5>
+        
 
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -78,7 +124,7 @@ by the user as if this were an abstract class.
         <th>Type</th>
 
         
-        <th>Attributes</th>
+        <th>Argument</th>
         
 
         
@@ -103,6 +149,7 @@ by the user as if this were an abstract class.
 <span class="param-type">number</span>
 
 
+
             
             </td>
 
@@ -122,7 +169,7 @@ by the user as if this were an abstract class.
                 </td>
             
 
-            <td class="description last">The dimension of this vector.</td>
+            <td class="description last"><p>The dimension of this vector.</p></td>
         </tr>
 
     
@@ -136,6 +183,7 @@ by the user as if this were an abstract class.
             
                 
 <span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -161,19 +209,24 @@ by the user as if this were an abstract class.
                 </td>
             
 
-            <td class="description last">The numbers to be put in the vector.</td>
+            <td class="description last"><p>The numbers to be put in the vector.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -183,52 +236,42 @@ by the user as if this were an abstract class.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-
-
-
+    
+</dd>
 
     
     </div>
@@ -255,28 +298,34 @@ by the user as if this were an abstract class.
     
 
     
-
-    
         <h3 class="subsection-title">Members</h3>
 
-        
+        <dl>
             
-<h4 class="name" id="magnitude"><span class="type-signature"></span>magnitude<span class="type-signature"></span></h4>
+<hr>
+<dt class="name" id="magnitude">
+    <h4 id="magnitude"><span class="type-signature"></span>magnitude<span class="type-signature"></span></h4>
 
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The L2 norm (Euclidian norm) of the vector.</p>
+    </div>
+    
 
+    
 
-
-<div class="description">
-    Gets the L2 norm (Euclidian norm) of the vector.
-</div>
-
-
-
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -286,77 +335,69 @@ by the user as if this were an abstract class.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line60">line 60</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
+</dd>
 
-
-
-
-        
+        </dl>
     
 
     
         <h3 class="subsection-title">Methods</h3>
 
-        
+        <dl>
             
+<hr>
+<dt>
+    <h4 class="name" id="argmax"><span class="type-signature"></span>argmax()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Finds the indices of the max value in this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="argmax"><span class="type-signature"></span>argmax<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Finds the indices of the max value in this vector.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -366,53 +407,44 @@ by the user as if this were an abstract class.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line195">line 195</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    An array of indices corresponding to the max values.
+    <p>An array of indices corresponding to the max values.</p>
 </div>
 
 
@@ -423,48 +455,51 @@ by the user as if this were an abstract class.
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;number></span>
+
 
 
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="argmin"><span class="type-signature"></span>argmin()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Finds the indices of the min value in this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="argmin"><span class="type-signature"></span>argmin<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Finds the indices of the min value in this vector.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -474,53 +509,44 @@ by the user as if this were an abstract class.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line205">line 205</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    An array of indices corresponding to the min values.
+    <p>An array of indices corresponding to the min values.</p>
 </div>
 
 
@@ -531,48 +557,45 @@ by the user as if this were an abstract class.
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;number></span>
+
 
 
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="choose"><span class="type-signature"></span>choose(indices)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Creates a new vector from the provided indices of this one. Basically<br>equivalent to swizzling.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="choose"><span class="type-signature"></span>choose<span class="signature">(indices)</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Creates a new vector from the provided indices of this one. Basically
-equivalent to swizzling.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -600,7 +623,8 @@ equivalent to swizzling.
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -610,19 +634,24 @@ equivalent to swizzling.
 
             
 
-            <td class="description last">The indices to select into a new vector.</td>
+            <td class="description last"><p>The indices to select into a new vector.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -632,53 +661,44 @@ equivalent to swizzling.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line217">line 217</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector from the provided indices.
+    <p>A new vector from the provided indices.</p>
 </div>
 
 
@@ -692,45 +712,48 @@ equivalent to swizzling.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="concat"><span class="type-signature"></span>concat()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Same as Array.prototype.concat, but always returns an Array.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="concat"><span class="type-signature"></span>concat<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-
-
-
-<div class="description">
-    Same as Array.prototype.concat, but always returns an Array.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -740,83 +763,69 @@ equivalent to swizzling.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line256">line 256</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-
-
-
+    
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="div"><span class="type-signature"></span>div(v)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a vector where this is divided by v componentwise. If v is<br>a single number, the vector is scaled by 1/v.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="div"><span class="type-signature"></span>div<span class="signature">(v)</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Returns a vector where this is divided by v componentwise. If v is
-a single number, the vector is scaled by 1/v.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -847,7 +856,11 @@ a single number, the vector is scaled by 1/v.
 <span class="param-type">number</span>
 |
 
-<span class="param-type">Array</span>
+<span class="param-type"><a href="vecn.html">vecn</a></span>
+|
+
+<span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -857,19 +870,24 @@ a single number, the vector is scaled by 1/v.
 
             
 
-            <td class="description last">The value to multiply with.</td>
+            <td class="description last"><p>The value to multiply with.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -879,53 +897,44 @@ a single number, the vector is scaled by 1/v.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line78">line 78</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector with the divided components.
+    <p>A new vector with the divided components.</p>
 </div>
 
 
@@ -939,44 +948,42 @@ a single number, the vector is scaled by 1/v.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="dot"><span class="type-signature"></span>dot(v)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Dot product of two vectors.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="dot"><span class="type-signature"></span>dot<span class="signature">(v)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Dots two vectors.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -1004,7 +1011,11 @@ a single number, the vector is scaled by 1/v.
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type"><a href="vecn.html">vecn</a></span>
+|
+
+<span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -1014,19 +1025,24 @@ a single number, the vector is scaled by 1/v.
 
             
 
-            <td class="description last">The vector to dot with this one.</td>
+            <td class="description last"><p>The vector to dot with this one.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1036,53 +1052,44 @@ a single number, the vector is scaled by 1/v.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line160">line 160</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    The dot product between this and v.
+    <p>The dot product between this and v.</p>
 </div>
 
 
@@ -1096,45 +1103,48 @@ a single number, the vector is scaled by 1/v.
 <span class="param-type">number</span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="filter"><span class="type-signature"></span>filter()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Same as Array.prototype.filter, but always returns an Array.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="filter"><span class="type-signature"></span>filter<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-
-
-
-<div class="description">
-    Same as Array.prototype.filter, but always returns an Array.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1144,84 +1154,75 @@ a single number, the vector is scaled by 1/v.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line263">line 263</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-
-
-
+    
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="map"><span class="type-signature"></span>map()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Same as Array.prototype.concat, but if the result does not contain only<br>numbers, returns an Array instead.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="map"><span class="type-signature"></span>map<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-
-
-
-<div class="description">
-    Same as Array.prototype.concat, but if the result does not contain only
-numbers, returns an Array instead.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1231,83 +1232,75 @@ numbers, returns an Array instead.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line271">line 271</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-
-
-
+    
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="max"><span class="type-signature"></span>max()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns the max value of this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="max"><span class="type-signature"></span>max<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Returns the max value of this vector.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1317,53 +1310,44 @@ numbers, returns an Array instead.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line228">line 228</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    The max value of this vector.
+    <p>The max value of this vector.</p>
 </div>
 
 
@@ -1377,45 +1361,48 @@ numbers, returns an Array instead.
 <span class="param-type">number</span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="min"><span class="type-signature"></span>min()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns the min value of this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="min"><span class="type-signature"></span>min<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Returns the min value of this vector.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1425,53 +1412,44 @@ numbers, returns an Array instead.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line237">line 237</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    The min value of this vector.
+    <p>The min value of this vector.</p>
 </div>
 
 
@@ -1485,46 +1463,42 @@ numbers, returns an Array instead.
 <span class="param-type">number</span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="minus"><span class="type-signature"></span>minus(v)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a vector where v is subtracted from the components of this<br>vector. If v is a single number, it is subtracted to each component. If v<br>is a vector, the vectors are combined componentwise.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="minus"><span class="type-signature"></span>minus<span class="signature">(v)</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Returns a vector where v is subtracted from the components of this
-vector. If v is a single number, it is subtracted to each component. If v
-is a vector, the vectors are combined componentwise.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -1555,7 +1529,11 @@ is a vector, the vectors are combined componentwise.
 <span class="param-type">number</span>
 |
 
-<span class="param-type">Array</span>
+<span class="param-type"><a href="vecn.html">vecn</a></span>
+|
+
+<span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -1565,19 +1543,24 @@ is a vector, the vectors are combined componentwise.
 
             
 
-            <td class="description last">The value to subtract from this vector.</td>
+            <td class="description last"><p>The value to subtract from this vector.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1587,53 +1570,44 @@ is a vector, the vectors are combined componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line94">line 94</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector with the combined components.
+    <p>A new vector with the combined components.</p>
 </div>
 
 
@@ -1647,45 +1621,48 @@ is a vector, the vectors are combined componentwise.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="neg"><span class="type-signature"></span>neg()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Negates each element in this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="neg"><span class="type-signature"></span>neg<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Negates each element in this vector.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1695,53 +1672,44 @@ is a vector, the vectors are combined componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line106">line 106</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector where all elements are negated.
+    <p>A new vector where all elements are negated.</p>
 </div>
 
 
@@ -1755,45 +1723,48 @@ is a vector, the vectors are combined componentwise.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="normalize"><span class="type-signature"></span>normalize()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Scales this vector to a magnitude of 1.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="normalize"><span class="type-signature"></span>normalize<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Scales this vector to a magnitude of 1.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1803,53 +1774,44 @@ is a vector, the vectors are combined componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line173">line 173</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector with scaled components.
+    <p>A new vector with scaled components.</p>
 </div>
 
 
@@ -1863,46 +1825,42 @@ is a vector, the vectors are combined componentwise.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="plus"><span class="type-signature"></span>plus(v)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a vector where v is added to the components of this vector. If v<br>is a single number, it is added to each component. If v is a vector, the<br>vectors are added componentwise.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="plus"><span class="type-signature"></span>plus<span class="signature">(v)</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Returns a vector where v is added to the components of this vector. If v
-is a single number, it is added to each component. If v is a vector, the
-vectors are added componentwise.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -1933,7 +1891,11 @@ vectors are added componentwise.
 <span class="param-type">number</span>
 |
 
-<span class="param-type">Array</span>
+<span class="param-type"><a href="vecn.html">vecn</a></span>
+|
+
+<span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -1943,19 +1905,24 @@ vectors are added componentwise.
 
             
 
-            <td class="description last">The value to add to this vector.</td>
+            <td class="description last"><p>The value to add to this vector.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1965,53 +1932,44 @@ vectors are added componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line118">line 118</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector with the summed components.
+    <p>A new vector with the summed components.</p>
 </div>
 
 
@@ -2025,44 +1983,42 @@ vectors are added componentwise.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="pnorm"><span class="type-signature"></span>pnorm(p)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Evaluates the p-norm (or lp-norm) of this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="pnorm"><span class="type-signature"></span>pnorm<span class="signature">(p)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Evaluates the p-norm (or lp-norm) of this vector.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -2093,6 +2049,7 @@ vectors are added componentwise.
 <span class="param-type">number</span>
 
 
+
             
             </td>
 
@@ -2100,19 +2057,24 @@ vectors are added componentwise.
 
             
 
-            <td class="description last">The p-value to evaluate.</td>
+            <td class="description last"><p>The p-value to evaluate.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2122,53 +2084,44 @@ vectors are added componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line183">line 183</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    The norm of this vector.
+    <p>The norm of this vector.</p>
 </div>
 
 
@@ -2182,44 +2135,42 @@ vectors are added componentwise.
 <span class="param-type">number</span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="pow"><span class="type-signature"></span>pow(p)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a vector where each component of this was raised to a power p.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="pow"><span class="type-signature"></span>pow<span class="signature">(p)</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Returns a vector where each component of this was raised to a power p.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -2250,6 +2201,7 @@ vectors are added componentwise.
 <span class="param-type">number</span>
 
 
+
             
             </td>
 
@@ -2257,19 +2209,24 @@ vectors are added componentwise.
 
             
 
-            <td class="description last">The power to raise each component by.</td>
+            <td class="description last"><p>The power to raise each component by.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2279,53 +2236,44 @@ vectors are added componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line132">line 132</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector with the exponentiated components.
+    <p>A new vector with the exponentiated components.</p>
 </div>
 
 
@@ -2339,45 +2287,48 @@ vectors are added componentwise.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="slice"><span class="type-signature"></span>slice()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Same as Array.prototype.slice, but always returns an Array.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="slice"><span class="type-signature"></span>slice<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-
-
-
-<div class="description">
-    Same as Array.prototype.slice, but always returns an Array.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2387,83 +2338,75 @@ vectors are added componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line282">line 282</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-
-
-
+    
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="splice"><span class="type-signature"></span>splice()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Same as Array.prototype.splice, but always returns an Array.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="splice"><span class="type-signature"></span>splice<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-
-
-
-<div class="description">
-    Same as Array.prototype.splice, but always returns an Array.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2473,83 +2416,75 @@ vectors are added componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line289">line 289</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-
-
-
+    
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="sum"><span class="type-signature"></span>sum()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sums the components of this vector.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="sum"><span class="type-signature"></span>sum<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
-
-
-
-<div class="description">
-    Sums the components of this vector.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2559,53 +2494,44 @@ vectors are added componentwise.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line246">line 246</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    The sum of the components of this vector.
+    <p>The sum of the components of this vector.</p>
 </div>
 
 
@@ -2619,45 +2545,42 @@ vectors are added componentwise.
 <span class="param-type">number</span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="times"><span class="type-signature"></span>times(v)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a vector where v and this are multiplied componentwise. If v is<br>a single number, the vector is scaled by v.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="times"><span class="type-signature"></span>times<span class="signature">(v)</span><span class="type-signature"> &rarr; {<a href="vecn.html">vecn</a>}</span></h4>
     
+        <h5>Parameters:</h5>
+        
 
-    
-
-
-
-<div class="description">
-    Returns a vector where v and this are multiplied componentwise. If v is
-a single number, the vector is scaled by v.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -2688,7 +2611,11 @@ a single number, the vector is scaled by v.
 <span class="param-type">number</span>
 |
 
-<span class="param-type">Array</span>
+<span class="param-type"><a href="vecn.html">vecn</a></span>
+|
+
+<span class="param-type">Array.&lt;number></span>
+
 
 
             
@@ -2698,19 +2625,24 @@ a single number, the vector is scaled by v.
 
             
 
-            <td class="description last">The value to multiply with.</td>
+            <td class="description last"><p>The value to multiply with.</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+    
 
-
-
-
-
+    
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2720,53 +2652,44 @@ a single number, the vector is scaled by v.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line143">line 143</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
+    
+    <h5>Returns:</h5>
+    
+            
 <div class="param-desc">
-    A new vector with the multiplied components.
+    <p>A new vector with the multiplied components.</p>
 </div>
 
 
@@ -2780,45 +2703,48 @@ a single number, the vector is scaled by v.
 <span class="param-type"><a href="vecn.html">vecn</a></span>
 
 
+
     </dd>
 </dl>
 
+
+        
+
     
-
-
-
-
+</dd>
 
         
             
+<hr>
+<dt>
+    <h4 class="name" id="toArray"><span class="type-signature"></span>toArray()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Converts this vector into an Array.</p>
+    </div>
+    
+
+    
 
     
 
     
-    <h4 class="name" id="toArray"><span class="type-signature"></span>toArray<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
-
-
-
-<div class="description">
-    Converts this vector into an Array.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -2828,54 +2754,44 @@ a single number, the vector is scaled by v.
 
     
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
+	
 
-    
 
-    
 
-    
+	
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line296">line 296</a>
-    </li></ul></dd>
-    
+	
 
-    
+	
 
-    
-
-    
+	
 </dl>
 
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
+</dd>
 
-
-
-
-
-
-
-
-
-
-        
+        </dl>
     
 
     
@@ -2888,19 +2804,136 @@ a single number, the vector is scaled by v.
 
 
 
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
 </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="vecn.html">vecn</a></li></ul><h3>Global</h3><ul><li><a href="global.html#isVec">isVec</a></li><li><a href="global.html#newVecType">newVecType</a></li></ul>
-</nav>
 
-<br class="clear">
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 22 2018 19:10:52 GMT-0600 (MDT)
+
+
+	<span class="copyright">
+	vecn Copyright © 2018 Bryce Wilson
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Wed May 23rd 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : false,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
 </body>
 </html>

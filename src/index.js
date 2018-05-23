@@ -14,7 +14,7 @@ var vecTypes = {};
 class vecn extends Array{
 	/**
 	 * Creates a vecn of the specified dimension. This should never be called
-	 * by the user as if this were an abstract class.
+	 * by the user (as if this were an abstract class).
 	 * @param {number} dimension The dimension of this vector.
 	 * @param {number[]} [args=[]] The numbers to be put in the vector.
 	 */
@@ -54,7 +54,7 @@ class vecn extends Array{
 	}
 
 	/**
-	 * Gets the L2 norm (Euclidian norm) of the vector.
+	 * The L2 norm (Euclidian norm) of the vector.
 	 * @returns {number} The L2 norm of the vector.
 	 */
 	get magnitude(){
@@ -71,7 +71,7 @@ class vecn extends Array{
 	/**
 	 * Returns a vector where this is divided by v componentwise. If v is
 	 * a single number, the vector is scaled by 1/v.
-	 * @param {number|Array} v The value to multiply with.
+	 * @param {number|vecn|number[]} v The value to multiply with.
 	 * 
 	 * @returns {vecn} A new vector with the divided components.
 	 */
@@ -87,7 +87,7 @@ class vecn extends Array{
 	 * Returns a vector where v is subtracted from the components of this
 	 * vector. If v is a single number, it is subtracted to each component. If v
 	 * is a vector, the vectors are combined componentwise.
-	 * @param {number|Array} v The value to subtract from this vector.
+	 * @param {number|vecn|number[]} v The value to subtract from this vector.
 	 * 
 	 * @returns {vecn} A new vector with the combined components.
 	 */
@@ -111,7 +111,7 @@ class vecn extends Array{
 	 * Returns a vector where v is added to the components of this vector. If v
 	 * is a single number, it is added to each component. If v is a vector, the
 	 * vectors are added componentwise.
-	 * @param {number|Array} v The value to add to this vector.
+	 * @param {number|vecn|number[]} v The value to add to this vector.
 	 * 
 	 * @returns {vecn} A new vector with the summed components.
 	 */
@@ -136,7 +136,7 @@ class vecn extends Array{
 	/**
 	 * Returns a vector where v and this are multiplied componentwise. If v is
 	 * a single number, the vector is scaled by v.
-	 * @param {number|Array} v The value to multiply with.
+	 * @param {number|vecn|number[]} v The value to multiply with.
 	 * 
 	 * @returns {vecn} A new vector with the multiplied components.
 	 */
@@ -152,8 +152,8 @@ class vecn extends Array{
 	//   Vector Operations
 
 	/**
-	 * Dots two vectors.
-	 * @param {Array} v The vector to dot with this one.
+	 * Dot product of two vectors.
+	 * @param {vecn|number[]} v The vector to dot with this one.
 	 * 
 	 * @returns {number} The dot product between this and v.
 	 */
@@ -190,7 +190,7 @@ class vecn extends Array{
 	/**
 	 * Finds the indices of the max value in this vector.
 	 * 
-	 * @returns {Array} An array of indices corresponding to the max values.
+	 * @returns {number[]} An array of indices corresponding to the max values.
 	 */
 	argmax(){
 		var maxVal = this.max();
@@ -200,7 +200,7 @@ class vecn extends Array{
 	/**
 	 * Finds the indices of the min value in this vector.
 	 * 
-	 * @returns {Array} An array of indices corresponding to the min values.
+	 * @returns {number[]} An array of indices corresponding to the min values.
 	 */
 	argmin(){
 		var minVal = this.min();
@@ -210,7 +210,7 @@ class vecn extends Array{
 	/**
 	 * Creates a new vector from the provided indices of this one. Basically
 	 * equivalent to swizzling.
-	 * @param {Array} indices The indices to select into a new vector.
+	 * @param {number[]} indices The indices to select into a new vector.
 	 * 
 	 * @returns {vecn} A new vector from the provided indices.
 	 */
