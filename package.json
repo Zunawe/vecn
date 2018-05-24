@@ -1,6 +1,6 @@
 {
   "name": "vecn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A module for creating n-dimensional vector types that support swizzling.",
   "keywords": [
     "math",
