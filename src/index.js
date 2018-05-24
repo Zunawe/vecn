@@ -481,6 +481,7 @@ function isIndex(n){
 /**
  * Removes outer arrays and returns a reference to the innermost array. For
  * example, [[1, 2]] becomes [1, 2]. [[[['a'], true]]] becomes [['a'], true].
+ * @private
  * @param {Array} arr The array to flatten.
  * 
  * @returns {Array} A reference to the innermost array in arr.
