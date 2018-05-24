@@ -5,7 +5,18 @@ const assert = require('assert');
  * @type {Object}
  * @private
  */
-var vecTypes = {};
+var vecTypes = (function (){
+  var handler = {
+    get: function (obj, prop){
+      if(!obj.hasOwnProperty(prop)){
+        obj[prop] = newVecType(prop);
+      }
+      return obj[prop];
+    }
+  }
+
+  return new Proxy({}, handler);
+})();
 
 /**
  * A class for fixed-size vectors of numbers.
@@ -159,9 +170,6 @@ class vecn extends Array{
    */
   dot(v){
     assert(v.length === this.dim, 'Argument must be of the same dimension.');
-    if(typeof(v) === 'number'){
-      v = Array(this.dim).fill(v);
-    }
     return this.reduce((acc, x, i) => acc + (x * v[i]), 0);
   }
 
@@ -247,26 +255,45 @@ class vecn extends Array{
     return this.reduce((acc, n) => acc + n, 0);
   }
 
+  /**
+   * Converts this vector into an Array.
+   * 
+   * @returns {number[]} An array of the contents of this vector.
+   */
+  toArray(){
+    return Array.from(this);
+  }
+
   //--------------------------------------------------------------------------
   //   Array Overrides
 
   /**
    * Same as Array.prototype.concat, but always returns an Array.
    */
-  concat(...values){
-    return super.concat(...values).toArray();
+  concat(...args){
+    var result = super.concat.apply(this.toArray(), args);
+    return vecTypes[result.length](result);
   }
 
   /**
-   * Same as Array.prototype.filter, but always returns an Array.
+   * Same as Array.prototype.filter, but returns an Array if the result has 0 or
+   * 1 entries.
+   * 
+   * @returns {vecn|number[]}
    */
-  filter(callbackfn){
-    return super.filter(callbackfn).toArray();
+  filter(...args){
+    var result = super.filter.apply(this.toArray(), args);
+    if(result.length > 1){
+      return vecTypes[result.length](result);
+    }
+    return result;
   }
 
   /**
-   * Same as Array.prototype.concat, but if the result does not contain only
-   * numbers, returns an Array instead.
+   * Same as Array.prototype.map, but returns an Array if the result contains
+   * non-numbers.
+   * 
+   * @returns {vecn|Array}
    */
   map(...args){
     var result = super.map(...args);
@@ -277,24 +304,29 @@ class vecn extends Array{
   }
 
   /**
-   * Same as Array.prototype.slice, but always returns an Array.
+   * Same as Array.prototype.slice, but returns an Array if the result has 0 or
+   * 1 entries.
    */
   slice(...args){
-    return super.slice(...args).toArray();
+    var result = super.slice.apply(this.toArray(), args);
+    if(result.length > 1){
+      return vecTypes[result.length](result);
+    }
+    return result;
   }
 
   /**
-   * Same as Array.prototype.splice, but always returns an Array.
+   * A restrictive version of the Array.prototype.splice that requires all
+   * removed elements to be replaced.
    */
   splice(...args){
-    return super.splice(...args).toArray();
-  }
+    var test = this.toArray();
+    test.splice(...args);
 
-  /**
-   * Converts this vector into an Array.
-   */
-  toArray(){
-    return Array.from(this);
+    assert.equal(test.length, this.dim, 'All removed elements must be replaced.');
+    assert(test.every((n) => typeof(n) === 'number'), 'All elements must be numbers.');
+    
+    test.forEach((n, i) => this[i] = n);
   }
 }
 
@@ -406,27 +438,11 @@ function swizzle(v, s){
     return v[namedIndices[s]];
   }
 
-  var vecType = newVecType(newDim);
-
   var values = s.split('').reduce((acc, x) => {
     var i = namedIndices[x];
     return acc && i < v.dim ? acc.concat([v[i]]) : undefined;
   }, []);
-  return values ? new vecType(...values) : values;
-}
-
-/**
- * Checks whether a provided string can be used as a valid index into an array.
- * @private
- * @param {string} n A string representation of the number in question.
- * 
- * @returns {boolean} True if n can be used to index an array.
- */
-function isIndex(n){
-  return !isNaN(n) &&
-         Number(n).toString() === n &&
-         Number.isInteger(Number(n)) &&
-         Number(n) >= 0;
+  return values ? new vecTypes[newDim](...values) : values;
 }
 
 /**
@@ -450,10 +466,6 @@ function flattenOuter(arr){
   }
   return arr;
 }
-
-newVecType(2);
-newVecType(3);
-newVecType(4);
 
 module.exports = {
   newVecType,

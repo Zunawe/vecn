@@ -11,7 +11,7 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc --reporter=text mocha -u tdd",
+    "test": "nyc --reporter=html --reporter=text mocha -u tdd",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "docs": "jsdoc src -d docs -P ./package.json -R ./README.md -t ./node_modules/ink-docstrap/template -c docs/conf.json && rsync -a --remove-source-files docs/**/**/* docs/ && find docs -type d -empty -delete"
   },
