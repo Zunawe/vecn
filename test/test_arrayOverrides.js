@@ -77,3 +77,27 @@ suite('array overrides', function (){
     });
   });
 });
+
+suite('illegal methods', function (){
+  var v;
+
+  setup(function (){
+    v = new vec3(1, 2, 3);
+  });
+
+  test('should disallow direct calls to push', function (){
+    assert(v.push === undefined);
+  });
+  
+  test('should disallow direct calls to pop', function (){
+    assert(v.pop === undefined);
+  });
+
+  test('should disallow direct calls to shift', function (){
+    assert(v.shift === undefined);
+  });
+  
+  test('should disallow direct calls to unshift', function (){
+    assert(v.unshift === undefined);
+  });
+});

@@ -72,10 +72,6 @@ class vecn extends Array{
     return this.pnorm(2);
   }
 
-  set magnitude(newVal){
-    // Empty
-  }
-
   //--------------------------------------------------------------------------
   //   Arithmetic
 
@@ -342,9 +338,20 @@ var validator = {
     if(prop === 'length'){
       return false;
     }
+    if(isIndex(prop)){
+      if(Number(prop) >= obj.dim){
+        throw new RangeError('Vector may not have more elements than dimension.')
+      }
+      else if(typeof(value) !== 'number'){
+        throw new TypeError('Vectors may only contain numbers.')
+      }
+      else{
+        obj[prop] = value;
+        return true;
+      }
+    }
 
-    obj[prop] = value;
-    return true;
+    return false;
   },
   get: function (obj, prop){
     if(obj.dim <= 4 && prop.toString().split('').every((c) => c in namedIndices)){
@@ -457,6 +464,27 @@ function promoteArrayDimension(arr, dim){
   return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0);
 }
 
+/**
+ * Checks whether a provided string can be used as a valid index into an array.
+ * @private
+ * @param {string} n A string representation of the number in question.
+ * 
+ * @returns {boolean} True if n can be used to index an array.
+ */
+function isIndex(n){
+	return !isNaN(n) &&
+	       Number(n).toString() === n &&
+	       Number.isInteger(Number(n)) &&
+         Number(n) >= 0;
+}
+
+/**
+ * Removes outer arrays and returns a reference to the innermost array. For
+ * example, [[1, 2]] becomes [1, 2]. [[[['a'], true]]] becomes [['a'], true].
+ * @param {Array} arr The array to flatten.
+ * 
+ * @returns {Array} A reference to the innermost array in arr.
+ */
 function flattenOuter(arr){
   if(!(arr instanceof Array) || arr.length !== 1){
     return arr;

@@ -33,6 +33,24 @@ suite('enumerables', function (){
   });
 });
 
+suite('indices', function (){
+  test('should allow elements to be modified through indices', function (){
+    var v = vec3(-1, 0, 1);
+    assert.doesNotThrow(() => v[0] = 5);
+    assert.deepEqual(v, vec3(5, 0, 1));
+  });
+
+  test('should NOT allow elements to be set to non-numbers', function (){
+    var v = vec3(-1, 0, 1);
+    assert.throws(() => v[0] = true, TypeError);
+    assert.throws(() => v[0] = undefined, TypeError);
+    assert.throws(() => v[0] = null, TypeError);
+    assert.throws(() => v[0] = vec3, TypeError);
+    assert.throws(() => v[0] = {}, TypeError);
+    assert.throws(() => v[0] = 'string', TypeError);
+  });
+});
+
 suite('extensibility', function (){
   test('should allow modification of indices', function (){
     var v = new vec3(1, 2, 3);
@@ -53,31 +71,9 @@ suite('extensibility', function (){
   });
 
   test('should NOT allow extensions', function (){
-    var v = new vec3(1, 2, 3);
-    v[100] = 0;
+    var v = vec3(1, 2, 3);
     v.someRandomProperty = 'no';
-    assert(!('100' in v));
+    assert.throws(() => v[100] = 0, RangeError);
     assert(!('someRandomProperty' in v));
-  });
-});
-
-suite('illegal methods', function (){
-  var v;
-
-  setup(function (){
-    v = new vec3(1, 2, 3);
-  });
-
-  test('should disallow direct calls to push', function (){
-    assert(v.push === undefined);
-  });
-  test('should disallow direct calls to pop', function (){
-    assert(v.pop === undefined);
-  });
-  test('should disallow direct calls to shift', function (){
-    assert(v.shift === undefined);
-  });
-  test('should disallow direct calls to unshift', function (){
-    assert(v.unshift === undefined);
   });
 });
