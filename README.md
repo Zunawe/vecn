@@ -1,8 +1,8 @@
 # vecn
 
-[![Build Status](https://travis-ci.org/Zunawe/vecn.svg?branch=master)](https://travis-ci.org/Zunawe/vecn)
-
 > A module for creating n-dimensional vector types that support swizzling.
+
+[![Build Status](https://travis-ci.org/Zunawe/vecn.svg?branch=master)](https://travis-ci.org/Zunawe/vecn) [![Coverage Status](https://coveralls.io/repos/github/Zunawe/vecn/badge.svg?branch=master)](https://coveralls.io/github/Zunawe/vecn?branch=master)
 
 Allows for the creation of vectors of arbitrary dimension that are also JavaScript `Arrays`. These arrays are fixed-length and accept only numbers as input, though they generally decay gracefully into regular `Arrays`. For example, you're allowed to use `map`, `reduce`, `concat`, and other `Array` methods, and if the result is a valid `vec`, a `vec` will be returned. Otherwise, you'll get back a standard `Array` with the new elements. These are specifically overloaded methods, so experimental, custom, and rebound methods aren't guaranteed to work.
 

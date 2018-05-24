@@ -77,7 +77,7 @@
 
 
 
-    <h3>vecn 1.0.0</h3>
+    <h3>vecn 1.0.1</h3>
 
 
 
@@ -95,10 +95,10 @@
 
 
     <section class="readme-section">
-        <article><h1>vecn</h1><p><a href="https://travis-ci.org/Zunawe/vecn"><img src="https://travis-ci.org/Zunawe/vecn.svg?branch=master" alt="Build Status"></a></p>
-<blockquote>
+        <article><h1>vecn</h1><blockquote>
 <p>A module for creating n-dimensional vector types that support swizzling.</p>
 </blockquote>
+<p><a href="https://travis-ci.org/Zunawe/vecn"><img src="https://travis-ci.org/Zunawe/vecn.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/Zunawe/vecn?branch=master"><img src="https://coveralls.io/repos/github/Zunawe/vecn/badge.svg?branch=master" alt="Coverage Status"></a></p>
 <p>Allows for the creation of vectors of arbitrary dimension that are also JavaScript <code>Arrays</code>. These arrays are fixed-length and accept only numbers as input, though they generally decay gracefully into regular <code>Arrays</code>. For example, you're allowed to use <code>map</code>, <code>reduce</code>, <code>concat</code>, and other <code>Array</code> methods, and if the result is a valid <code>vec</code>, a <code>vec</code> will be returned. Otherwise, you'll get back a standard <code>Array</code> with the new elements. These are specifically overloaded methods, so experimental, custom, and rebound methods aren't guaranteed to work.</p>
 <h2>Install</h2><pre class="prettyprint source"><code>$ npm install vecn</code></pre><h2>Usage</h2><p>Since they're the most common, <code>vec2</code>, <code>vec3</code>, and <code>vec4</code> are already included:</p>
 <pre class="prettyprint source lang-js"><code>const {vec3} = require('vecn');
