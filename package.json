@@ -10,6 +10,9 @@
     "array"
   ],
   "main": "src/index.js",
+  "files": [
+    "src/*"
+  ],
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha -u tdd",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
