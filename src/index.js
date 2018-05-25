@@ -351,11 +351,18 @@ var validator = {
       }
     }
 
+    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString());
+    if(obj.dim <= 4 && swizzleSymbolSet){
+      swizzleReplace(obj, prop.toString(), swizzleSymbolSet, value);
+      return true;
+    }
+
     return false;
   },
   get: function (obj, prop){
-    if(obj.dim <= 4 && prop.toString().split('').every((c) => c in namedIndices)){
-      return swizzle(obj, prop);
+    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString());
+    if(obj.dim <= 4 && swizzleSymbolSet){
+      return swizzleGet(obj, prop, swizzleSymbolSet);
     }
 
     return obj[prop];
@@ -419,12 +426,17 @@ function isVec(v){
  * @type {Object}
  * @private
  */
-const namedIndices = {
-  x: 0,
-  y: 1,
-  z: 2,
-  w: 3
-};
+const namedIndices = [
+  {x: 0, y: 1, z: 2, w: 3},
+  {r: 0, g: 1, b: 2, a: 3},
+  {s: 0, t: 1, p: 2, q: 3}
+];
+
+function getSwizzleSymbolSet(s){
+  return namedIndices.find((set) => {
+    return s.split('').every((c) => c in set);
+  });
+}
 
 /**
  * Swizzles a vecn and returns the resulting vector.
@@ -437,19 +449,35 @@ const namedIndices = {
  * string), a number (if s has a length of 1), or a vecn where the values have
  * been rearranged according to the order given in s.
  */
-function swizzle(v, s){
-  var dim = v.dim;
+function swizzleGet(v, s, set){
   var newDim = s.length;
 
   if(newDim === 1){
-    return v[namedIndices[s]];
+    return v[set[s]];
   }
 
   var values = s.split('').reduce((acc, x) => {
-    var i = namedIndices[x];
+    var i = set[x];
     return acc && i < v.dim ? acc.concat([v[i]]) : undefined;
   }, []);
   return values ? new vecTypes[newDim](...values) : values;
+}
+
+function swizzleReplace(v, s, set, newVals){
+  if(s.length === 1){
+    if(typeof(newVals) !== 'number'){
+      throw new TypeError('Must set to a number');
+    }
+    v[set[s]] = newVals;
+    return;
+  }
+
+  assert(newVals instanceof Array);
+  assert.equal(s.length, newVals.length);
+  assert(newVals.every((item) => typeof(item) === 'number'));
+  s.split('').map((c) => set[c]).forEach((index, i) => {
+    v[index] = newVals[i];
+  });
 }
 
 /**

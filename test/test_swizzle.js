@@ -42,4 +42,45 @@ suite('swizzle', function (){
     assert.deepEqual(v1.xyxxz, new vec5(1, 2, 1, 1, 3));
     assert.deepEqual(v2.wxz, new vec3(7, 4, 6));
   });
+
+  test('should allow rgba aliases for swizzling', function (){
+    assert.deepEqual(v1.rgr, vec3(1, 2, 1));
+  });
+
+  test('should allow stpq aliases for swizzling', function (){
+    assert.deepEqual(v1.sps, vec3(1, 3, 1));
+  });
+
+  test('should allow assignment by name', function (){
+    var v = vec3(1, 2, 3);
+    v.z = 42;
+    assert.deepEqual(v, vec3(1, 2, 42));
+  });
+
+  test('should allow assignment using swizzling', function (){
+    var v = vec3(1, 2, 3);
+    v.xy = v1.yy;
+    assert.deepEqual(v, vec3(2, 2, 3));
+  });
+
+  test('should NOT allow assignment with invalid type', function (){
+    var v = vec3(1, 2, 3);
+    assert.throws(() => v.x = true, TypeError);
+    assert.throws(() => v.x = 'string', TypeError);
+    assert.throws(() => v.x = assert, TypeError);
+    assert.throws(() => v.x = {}, TypeError);
+    assert.throws(() => v.x = [], TypeError);
+
+    assert.throws(() => v.xy = ['a', 1]);
+    assert.throws(() => v.xy = [undefined, 1]);
+    assert.throws(() => v.xy = [0, assert]);
+    assert.throws(() => v.xy = ['a', null]);
+    assert.throws(() => v.xy = [[], 1]);
+  });
+
+  test('should NOT allow assignment with invalid length', function (){
+    var v = vec3(1, 2, 3);
+    assert.throws(() => v.xy = v.zzz, Error);
+    assert.throws(() => v.xy = 4, Error);
+  });
 });
