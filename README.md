@@ -8,7 +8,7 @@ Allows for the creation of vectors of arbitrary dimension that are also JavaScri
 
 ## Install
 
-```
+```sh
 $ npm install vecn
 ```
 
@@ -22,7 +22,7 @@ let v = new vec3(1, 2, 3);
 console.log(v);
 ```
 
-```
+```js
 vec3 [ 1, 2, 3 ]
 ```
 
@@ -35,7 +35,7 @@ var v = new vec5(1, 2, 3, 4, 5);
 console.log(v);
 ```
 
-```
+```js
 vec5 [ 1, 2, 3, 4, 5 ]
 ```
 
@@ -56,7 +56,20 @@ v.zy                         // vec2 [ 3, 2 ]
 v.zywwxyyz                   // vec8 [ 3, 2, 4, 4, 1, 2, 2, 3 ]
 ```
 
-Swizzling only works for `vec2`, `vec3`, and `vec4`.
+We can also set values with swizzling.
+
+```js
+var v = new vec3(1, 2, 3);
+
+v.xz = [4, 5];
+console.log(v);
+```
+
+```js
+vec3 [ 4, 2, 5 ]
+```
+
+Swizzling only works for `vec2`, `vec3`, and `vec4` (with plans to extend it with custom accessors).
 
 #### Important Nuance
 
@@ -68,8 +81,7 @@ const vec2 = vecn.newVecType(2);
 var v1 = new vec2(1, 2);     // Valid construction
 var v2 = vec2(1, 2);         // Also valid
 
-v1.constructor === vec2;     // False
-
+v1.constructor === vec2;     // false
 ```
 
 Basically this allows for swizzling and lets me extend `Array` without letting the user mess with the length.

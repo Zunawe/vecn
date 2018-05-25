@@ -475,6 +475,20 @@ function swizzleReplace(v, s, set, newVals){
   assert(newVals instanceof Array);
   assert.equal(s.length, newVals.length);
   assert(newVals.every((item) => typeof(item) === 'number'));
+  if(s.split('').some((c) => set[c] >= v.dim)){
+    return;
+  }
+
+  var valid = true;
+  for(let i = 0, unique = {}; i < s.length; ++i){
+    if(unique.hasOwnProperty(s[i])){
+      valid = false;
+      break;
+    }
+    unique[s[i]] = true;
+  }
+  assert(valid);
+
   s.split('').map((c) => set[c]).forEach((index, i) => {
     v[index] = newVals[i];
   });

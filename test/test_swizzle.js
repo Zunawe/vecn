@@ -63,6 +63,21 @@ suite('swizzle', function (){
     assert.deepEqual(v, vec3(2, 2, 3));
   });
 
+  test('should NOT allow assignment beyond dimension', function (){
+    var v = vec3(1, 2, 3);
+    var copy = vec3(v);
+
+    v.w = 5;
+    assert.deepEqual(v, copy);
+    v.xw = [1, 2];
+    assert.deepEqual(v, copy);
+  });
+
+  test('should NOT allow double assignment', function (){
+    var v = vec3(1, 2, 3);
+    assert.throws(() => v.xx = [1, 2], Error);
+  });
+
   test('should NOT allow assignment with invalid type', function (){
     var v = vec3(1, 2, 3);
     assert.throws(() => v.x = true, TypeError);
