@@ -16,7 +16,7 @@
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha -u tdd",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc src -d docs -P ./package.json -R ./README.md -t ./node_modules/ink-docstrap/template -c docs/conf.json && rsync -a --remove-source-files docs/**/**/* docs/ && find docs -type d -empty -delete"
+    "docs": "ls docs | while read line; do echo \"docs/$line\"; done | grep -v \"docs/conf.json\" | xargs rm -rf && jsdoc src -d docs -P ./package.json -R ./README.md -t ./node_modules/ink-docstrap/template -c docs/conf.json && mv docs/**/**/* docs/ && rm -r docs/vecn"
   },
   "author": "Bryce Wilson",
   "license": "MIT",

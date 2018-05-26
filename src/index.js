@@ -78,7 +78,7 @@ class vecn extends Array{
   /**
    * Returns a vector where this is divided by v componentwise. If v is
    * a single number, the vector is scaled by 1/v.
-   * @param {number|vecn|number[]} v The value to multiply with.
+   * @param {number|number[]} v The value to multiply with.
    * 
    * @returns {vecn} A new vector with the divided components.
    */
@@ -94,7 +94,7 @@ class vecn extends Array{
    * Returns a vector where v is subtracted from the components of this
    * vector. If v is a single number, it is subtracted to each component. If v
    * is a vector, the vectors are combined componentwise.
-   * @param {number|vecn|number[]} v The value to subtract from this vector.
+   * @param {number|number[]} v The value to subtract from this vector.
    * 
    * @returns {vecn} A new vector with the combined components.
    */
@@ -118,7 +118,7 @@ class vecn extends Array{
    * Returns a vector where v is added to the components of this vector. If v
    * is a single number, it is added to each component. If v is a vector, the
    * vectors are added componentwise.
-   * @param {number|vecn|number[]} v The value to add to this vector.
+   * @param {number|number[]} v The value to add to this vector.
    * 
    * @returns {vecn} A new vector with the summed components.
    */
@@ -143,7 +143,7 @@ class vecn extends Array{
   /**
    * Returns a vector where v and this are multiplied componentwise. If v is
    * a single number, the vector is scaled by v.
-   * @param {number|vecn|number[]} v The value to multiply with.
+   * @param {number|number[]} v The value to multiply with.
    * 
    * @returns {vecn} A new vector with the multiplied components.
    */
@@ -160,7 +160,7 @@ class vecn extends Array{
 
   /**
    * Dot product of two vectors.
-   * @param {vecn|number[]} v The vector to dot with this one.
+   * @param {number[]} v The vector to dot with this one.
    * 
    * @returns {number} The dot product between this and v.
    */
@@ -264,7 +264,9 @@ class vecn extends Array{
   //   Array Overrides
 
   /**
-   * Same as Array.prototype.concat, but always returns an Array.
+   * Same as Array.prototype.concat, but return value is of a new vecType.
+   * 
+   * @returns {vecn}
    */
   concat(...args){
     var result = super.concat.apply(this.toArray(), args);
@@ -328,8 +330,8 @@ class vecn extends Array{
 
 /**
  * The validator to be used in the proxy for all vec objects. Catches swizzling
- * accessors and blocks Array functions that change the length or magnitude
- * properties.
+ * properties, makes sure assignment only works for indices, and disallows
+ * non-numerical assignments.
  * @type {Object}
  * @private
  */
@@ -353,7 +355,7 @@ var validator = {
 
     var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString());
     if(obj.dim <= 4 && swizzleSymbolSet){
-      swizzleReplace(obj, prop.toString(), swizzleSymbolSet, value);
+      swizzleSet(obj, prop.toString(), swizzleSymbolSet, value);
       return true;
     }
 
@@ -432,6 +434,13 @@ const namedIndices = [
   {s: 0, t: 1, p: 2, q: 3}
 ];
 
+/**
+ * Gets the set of symbols corresponding to indices used for swizzling.
+ * @private
+ * @param {string} s The string used as a property to swizzle.
+ * 
+ * @returns {Object} A map from characters to indices.
+ */
 function getSwizzleSymbolSet(s){
   return namedIndices.find((set) => {
     return s.split('').every((c) => c in set);
@@ -439,11 +448,12 @@ function getSwizzleSymbolSet(s){
 }
 
 /**
- * Swizzles a vecn and returns the resulting vector.
+ * Creates a new vector from the named indices given by swizzling.
  * @private
  * @param {vecn} v The vector to pull data from. The dimension is assumed to be
  * 2, 3, or 4, but this isn't enforced here.
  * @param {string} s The property being used to swizzle (e.g. 'xxy' or 'z').
+ * @param {Object} set A map from characters to indices (assumed to be valid).
  * 
  * @returns {undefined|number|vecn} Either undefined (if s isn't a valid swizzle
  * string), a number (if s has a length of 1), or a vecn where the values have
@@ -463,7 +473,18 @@ function swizzleGet(v, s, set){
   return values ? new vecTypes[newDim](...values) : values;
 }
 
-function swizzleReplace(v, s, set, newVals){
+/**
+ * Assigns the indexed values in v to the values in newVals in the order they
+ * are described in in s.
+ * @private
+ * @param {vecn} v The starting vector.
+ * @param {string} s The property being used to swizzle (e.g. 'xyz' or 'xz').
+ * @param {Object} set A map from characters to indices (assumed to be valid).
+ * @param {number|number[]} newVals The right hand side of the assignment
+ * 
+ * @returns {vecn} A copy of v with the correct elements replaced.
+ */
+function swizzleSet(v, s, set, newVals){
   if(s.length === 1){
     if(typeof(newVals) !== 'number'){
       throw new TypeError('Must set to a number');
