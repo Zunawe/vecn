@@ -14,9 +14,12 @@
     "src/*"
   ],
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha -u tdd",
+    "test": "standard src && nyc --reporter=html --reporter=text mocha -u tdd",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "docs": "ls docs | while read line; do echo \"docs/$line\"; done | grep -v \"docs/conf.json\" | xargs rm -rf && jsdoc src -d docs -P ./package.json -R ./README.md -t ./node_modules/ink-docstrap/template -c docs/conf.json && mv docs/**/**/* docs/ && rm -r docs/vecn"
+  },
+  "standard": {
+    "env": "mocha"
   },
   "author": "Bryce Wilson",
   "license": "MIT",
@@ -28,7 +31,8 @@
     "coveralls": "^3.0.1",
     "ink-docstrap": "^1.3.2",
     "mocha": "^5.1.1",
-    "nyc": "^11.8.0"
+    "nyc": "^11.8.0",
+    "standard": "^11.0.1"
   },
   "dependencies": {
     "assert": "^1.4.1"

@@ -16,10 +16,10 @@ $ npm install vecn
 
 Since they're the most common, `vec2`, `vec3`, and `vec4` are already included:
 ```js
-const {vec3} = require('vecn');
+const {vec3} = require('vecn')
 
-let v = new vec3(1, 2, 3);
-console.log(v);
+let v = vec3(1, 2, 3)
+console.log(v)
 ```
 
 ```js
@@ -28,23 +28,25 @@ vec3 [ 1, 2, 3 ]
 
 If you need to create your own vector type:
 ```js
-const vecn = require('vecn');
+const vecn = require('vecn')
 
-const vec5 = vecn.newVecType(5);
-var v = new vec5(1, 2, 3, 4, 5);
-console.log(v);
+const vec5 = vecn.getVecType(5)
+var v = vec5(1, 2, 3, 4, 5)
+console.log(v)
 ```
 
 ```js
 vec5 [ 1, 2, 3, 4, 5 ]
 ```
 
+For a more in-depth description of available vector methods, see the [documentation](https://zunawe.github.io/vecn).
+
 #### Swizzling
 
 Swizzling is a technique used in GLSL that allows you to access a vector's components by name and build new vectors from them. It works the same here at arbitrary length. It's easiest to see in an example:
 
 ```js
-var v = new vec4(1, 2, 3, 4);
+var v = vec4(1, 2, 3, 4)
 
 v.x                          // 1
 v.y                          // 2
@@ -59,10 +61,10 @@ v.zywwxyyz                   // vec8 [ 3, 2, 4, 4, 1, 2, 2, 3 ]
 We can also set values with swizzling.
 
 ```js
-var v = new vec3(1, 2, 3);
+var v = vec3(1, 2, 3)
 
-v.xz = [4, 5];
-console.log(v);
+v.xz = [4, 5]
+console.log(v)
 ```
 
 ```js
@@ -73,15 +75,15 @@ Swizzling only works for `vec2`, `vec3`, and `vec4` (with plans to extend it wit
 
 #### Important Nuance
 
-When creating a new vecType, you are generating a new class. This class, however, is hidden behind a function that creates the object for you and returns a Proxy. Therefore, the function returned by `vecn.newVecType` is **not** a constructor. Since the `new` keyword implies a `return this` at the end of the function, but the function already returns, the existence of a `new` before the function call has no effect. The following code explains the importance:
+When creating a new vecType, you _are_ generating a new class. However, this class is hidden behind a function that creates the object for you and returns a Proxy. Therefore, the function returned by `vecn.getVecType` is **not** a constructor. Since the `new` keyword implies a `return this` at the end of the function, but the function already returns, the existence of a `new` before the function call has no effect. The following code explains the importance:
 
 ```js
-const vec2 = vecn.newVecType(2);
+const vec2 = vecn.getVecType(2)
 
-var v1 = new vec2(1, 2);     // Valid construction
-var v2 = vec2(1, 2);         // Also valid
+var v1 = vec2(1, 2)          // Valid construction
+var v2 = new vec2(1, 2)      // Also valid, but misleading
 
-v1.constructor === vec2;     // false
+v1.constructor === vec2      // false
 ```
 
 Basically this allows for swizzling and lets me extend `Array` without letting the user mess with the length.

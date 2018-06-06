@@ -1,48 +1,48 @@
-const assert = require('assert');
+const assert = require('assert')
 
 /**
  * An object for memoizing vecType functions.
  * @type {Object}
  * @private
  */
-var vecTypes = (function (){
+var vecTypes = (function () {
   var handler = {
-    get: function (obj, prop){
-      if(!obj.hasOwnProperty(prop)){
-        obj[prop] = newVecType(prop);
+    get: function (obj, prop) {
+      if (!obj.hasOwnProperty(prop)) {
+        obj[prop] = getVecType(prop)
       }
-      return obj[prop];
+      return obj[prop]
     }
   }
 
-  return new Proxy({}, handler);
-})();
+  return new Proxy({}, handler)
+})()
 
 /**
  * A class for fixed-size vectors of numbers.
  * @extends Array
  */
-class vecn extends Array{
+class vecn extends Array {
   /**
    * Creates a vecn of the specified dimension. This should never be called
    * by the user (as if this were an abstract class).
    * @param {number} dimension The dimension of this vector.
    * @param {number[]} [args=[]] The numbers to be put in the vector.
    */
-  constructor(dimension, args){
-    args = flattenOuter(args);
-    assert(args.every((x) => typeof(x) === 'number'), 'All arguments must be numbers.');
+  constructor (dimension, args) {
+    args = flattenOuter(args)
+    assert(args.every((x) => typeof x === 'number'), 'All arguments must be numbers.')
     assert(args.length === 0 || args.length === 1 || args.length === dimension,
-      'Argument list must be empty, have a single number, or have a length equal to the dimension.');
+      'Argument list must be empty, have a single number, or have a length equal to the dimension.')
 
-    if(args.length === 0){
-      args = [0];
+    if (args.length === 0) {
+      args = [0]
     }
-    if(args.length === 1){
-      args = Array(dimension).fill(args[0]);
+    if (args.length === 1) {
+      args = Array(dimension).fill(args[0])
     }
 
-    super(...args);
+    super(...args)
 
     Object.defineProperties(this, {
       pop: {
@@ -61,33 +61,33 @@ class vecn extends Array{
         value: undefined,
         enumerable: false
       }
-    });
+    })
   }
 
   /**
    * The L2 norm (Euclidian norm) of the vector.
    * @returns {number} The L2 norm of the vector.
    */
-  get magnitude(){
-    return this.pnorm(2);
+  get magnitude () {
+    return this.pnorm(2)
   }
 
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //   Arithmetic
 
   /**
    * Returns a vector where this is divided by v componentwise. If v is
    * a single number, the vector is scaled by 1/v.
    * @param {number|number[]} v The value to multiply with.
-   * 
+   *
    * @returns {vecn} A new vector with the divided components.
    */
-  div(v){
-    assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
-    if(typeof(v) === 'number'){
-      v = Array(this.dim).fill(v);
+  div (v) {
+    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
+    if (typeof v === 'number') {
+      v = Array(this.dim).fill(v)
     }
-    return vecTypes[this.dim](this.pow(-1).times(v).pow(-1));
+    return vecTypes[this.dim](this.pow(-1).times(v).pow(-1))
   }
 
   /**
@@ -95,23 +95,23 @@ class vecn extends Array{
    * vector. If v is a single number, it is subtracted to each component. If v
    * is a vector, the vectors are combined componentwise.
    * @param {number|number[]} v The value to subtract from this vector.
-   * 
+   *
    * @returns {vecn} A new vector with the combined components.
    */
-  minus(v){
-    assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
-    if(typeof(v) === 'number'){
-      v = Array(this.dim).fill(v);
+  minus (v) {
+    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
+    if (typeof v === 'number') {
+      v = Array(this.dim).fill(v)
     }
-    return vecTypes[this.dim](this.neg().plus(v).neg());
+    return vecTypes[this.dim](this.neg().plus(v).neg())
   }
 
   /**
    * Negates each element in this vector.
    * @returns {vecn} A new vector where all elements are negated.
    */
-  neg(){
-    return vecTypes[this.dim](this.times(-1));
+  neg () {
+    return vecTypes[this.dim](this.times(-1))
   }
 
   /**
@@ -119,212 +119,214 @@ class vecn extends Array{
    * is a single number, it is added to each component. If v is a vector, the
    * vectors are added componentwise.
    * @param {number|number[]} v The value to add to this vector.
-   * 
+   *
    * @returns {vecn} A new vector with the summed components.
    */
-  plus(v){
-    assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
-    if(typeof(v) === 'number'){
-      v = Array(this.dim).fill(v);
+  plus (v) {
+    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
+    if (typeof v === 'number') {
+      v = Array(this.dim).fill(v)
     }
-    return vecTypes[this.dim](this.map((x, i) => x + v[i]));
+    return vecTypes[this.dim](this.map((x, i) => x + v[i]))
   }
 
   /**
    * Returns a vector where each component of this was raised to a power p.
    * @param {number} p The power to raise each component by.
-   * 
+   *
    * @returns {vecn} A new vector with the exponentiated components.
    */
-  pow(p){
-    return vecTypes[this.dim](this.map((x) => Math.pow(x, p)));
+  pow (p) {
+    return vecTypes[this.dim](this.map((x) => Math.pow(x, p)))
   }
 
   /**
    * Returns a vector where v and this are multiplied componentwise. If v is
    * a single number, the vector is scaled by v.
    * @param {number|number[]} v The value to multiply with.
-   * 
+   *
    * @returns {vecn} A new vector with the multiplied components.
    */
-  times(v){
-    assert(v.length === this.dim || typeof(v) === 'number', 'Argument must be a scalar or of the same dimension.');
-    if(typeof(v) === 'number'){
-      v = Array(this.dim).fill(v);
+  times (v) {
+    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
+    if (typeof v === 'number') {
+      v = Array(this.dim).fill(v)
     }
-    return vecTypes[this.dim](this.map((x, i) => x * v[i]));
+    return vecTypes[this.dim](this.map((x, i) => x * v[i]))
   }
 
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //   Vector Operations
 
   /**
    * Dot product of two vectors.
    * @param {number[]} v The vector to dot with this one.
-   * 
+   *
    * @returns {number} The dot product between this and v.
    */
-  dot(v){
-    assert(v.length === this.dim, 'Argument must be of the same dimension.');
-    return this.reduce((acc, x, i) => acc + (x * v[i]), 0);
+  dot (v) {
+    assert(v.length === this.dim, 'Argument must be of the same dimension.')
+    return this.reduce((acc, x, i) => acc + (x * v[i]), 0)
   }
 
   /**
    * Scales this vector to a magnitude of 1.
-   * 
+   *
    * @returns {vecn} A new vector with scaled components.
    */
-  normalize(){
-    return vecTypes[this.dim](this.div(this.magnitude));
+  normalize () {
+    return vecTypes[this.dim](this.div(this.magnitude))
   }
 
   /**
    * Evaluates the p-norm (or lp-norm) of this vector.
    * @param {number} p The p-value to evaluate.
-   * 
+   *
    * @returns {number} The norm of this vector.
    */
-  pnorm(p){
-    return Math.pow(this.map(Math.abs).pow(p).sum(), 1 / p);
+  pnorm (p) {
+    return Math.pow(this.map(Math.abs).pow(p).sum(), 1 / p)
   }
 
-  //*************************************************************************
+  // --------------------------------------------------------------------------
   //   Extras
 
   /**
    * Finds the indices of the max value in this vector.
-   * 
+   *
    * @returns {number[]} An array of indices corresponding to the max values.
    */
-  argmax(){
-    var maxVal = this.max();
-    return this.reduce((acc, n, i) => n === maxVal ? acc.concat([i]) : acc, []);
+  argmax () {
+    var maxVal = this.max()
+    return this.reduce((acc, n, i) => n === maxVal ? acc.concat([i]) : acc, [])
   }
 
   /**
    * Finds the indices of the min value in this vector.
-   * 
+   *
    * @returns {number[]} An array of indices corresponding to the min values.
    */
-  argmin(){
-    var minVal = this.min();
-    return this.reduce((acc, n, i) => n === minVal ? acc.concat([i]) : acc, []);
+  argmin () {
+    var minVal = this.min()
+    return this.reduce((acc, n, i) => n === minVal ? acc.concat([i]) : acc, [])
   }
 
   /**
    * Creates a new vector from the provided indices of this one. Basically
    * equivalent to swizzling.
    * @param {number[]} indices The indices to select into a new vector.
-   * 
+   *
    * @returns {vecn} A new vector from the provided indices.
    */
-  choose(indices){
-    var v = [];
-    indices.forEach((i) => v.push(this[i]));
-    return vecTypes[v.length](v);
+  choose (indices) {
+    var v = []
+    indices.forEach((i) => v.push(this[i]))
+    return vecTypes[v.length](v)
   }
 
   /**
    * Returns the max value of this vector.
-   * 
+   *
    * @returns {number} The max value of this vector.
    */
-  max(){
-    return Math.max(...this);
+  max () {
+    return Math.max(...this)
   }
 
   /**
    * Returns the min value of this vector.
-   * 
+   *
    * @returns {number} The min value of this vector.
    */
-  min(){
-    return Math.min(...this);
+  min () {
+    return Math.min(...this)
   }
 
   /**
    * Sums the components of this vector.
-   * 
+   *
    * @returns {number} The sum of the components of this vector.
    */
-  sum(){
-    return this.reduce((acc, n) => acc + n, 0);
+  sum () {
+    return this.reduce((acc, n) => acc + n, 0)
   }
 
   /**
    * Converts this vector into an Array.
-   * 
+   *
    * @returns {number[]} An array of the contents of this vector.
    */
-  toArray(){
-    return Array.from(this);
+  toArray () {
+    return Array.from(this)
   }
 
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //   Array Overrides
 
   /**
    * Same as Array.prototype.concat, but return value is of a new vecType.
-   * 
+   *
    * @returns {vecn}
    */
-  concat(...args){
-    var result = super.concat.apply(this.toArray(), args);
-    return vecTypes[result.length](result);
+  concat (...args) {
+    var result = super.concat.apply(this.toArray(), args)
+    return vecTypes[result.length](result)
   }
 
   /**
    * Same as Array.prototype.filter, but returns an Array if the result has 0 or
    * 1 entries.
-   * 
+   *
    * @returns {vecn|number[]}
    */
-  filter(...args){
-    var result = super.filter.apply(this.toArray(), args);
-    if(result.length > 1){
-      return vecTypes[result.length](result);
+  filter (...args) {
+    var result = super.filter.apply(this.toArray(), args)
+    if (result.length > 1) {
+      return vecTypes[result.length](result)
     }
-    return result;
+    return result
   }
 
   /**
    * Same as Array.prototype.map, but returns an Array if the result contains
    * non-numbers.
-   * 
+   *
    * @returns {vecn|Array}
    */
-  map(...args){
-    var result = super.map(...args);
-    if(result.every((n) => typeof(n) === 'number')){
-      return result;
+  map (...args) {
+    var result = super.map(...args)
+    if (result.every((n) => typeof n === 'number')) {
+      return result
     }
-    return result.toArray();
+    return result.toArray()
   }
 
   /**
    * Same as Array.prototype.slice, but returns an Array if the result has 0 or
    * 1 entries.
    */
-  slice(...args){
-    var result = super.slice.apply(this.toArray(), args);
-    if(result.length > 1){
-      return vecTypes[result.length](result);
+  slice (...args) {
+    var result = super.slice.apply(this.toArray(), args)
+    if (result.length > 1) {
+      return vecTypes[result.length](result)
     }
-    return result;
+    return result
   }
 
   /**
    * A restrictive version of the Array.prototype.splice that requires all
    * removed elements to be replaced.
    */
-  splice(...args){
-    var test = this.toArray();
-    test.splice(...args);
+  splice (...args) {
+    var test = this.toArray()
+    test.splice(...args)
 
-    assert.equal(test.length, this.dim, 'All removed elements must be replaced.');
-    assert(test.every((n) => typeof(n) === 'number'), 'All elements must be numbers.');
-    
-    test.forEach((n, i) => this[i] = n);
+    assert.equal(test.length, this.dim, 'All removed elements must be replaced.')
+    assert(test.every((n) => typeof n === 'number'), 'All elements must be numbers.')
+
+    test.forEach((n, i) => {
+      this[i] = n
+    })
   }
 }
 
@@ -336,90 +338,88 @@ class vecn extends Array{
  * @private
  */
 var validator = {
-  set: function (obj, prop, value){
-    if(prop === 'length'){
-      return false;
+  set: function (obj, prop, value) {
+    if (prop === 'length') {
+      return false
     }
-    if(isIndex(prop)){
-      if(Number(prop) >= obj.dim){
+    if (isIndex(prop)) {
+      if (Number(prop) >= obj.dim) {
         throw new RangeError('Vector may not have more elements than dimension.')
-      }
-      else if(typeof(value) !== 'number'){
+      } else if (typeof value !== 'number') {
         throw new TypeError('Vectors may only contain numbers.')
-      }
-      else{
-        obj[prop] = value;
-        return true;
+      } else {
+        obj[prop] = value
+        return true
       }
     }
 
-    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString());
-    if(obj.dim <= 4 && swizzleSymbolSet){
-      swizzleSet(obj, prop.toString(), swizzleSymbolSet, value);
-      return true;
+    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
+    if (obj.dim <= 4 && swizzleSymbolSet) {
+      swizzleSet(obj, prop.toString(), swizzleSymbolSet, value)
+      return true
     }
 
-    return false;
+    return false
   },
-  get: function (obj, prop){
-    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString());
-    if(obj.dim <= 4 && swizzleSymbolSet){
-      return swizzleGet(obj, prop, swizzleSymbolSet);
+  get: function (obj, prop) {
+    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
+    if (obj.dim <= 4 && swizzleSymbolSet) {
+      return swizzleGet(obj, prop, swizzleSymbolSet)
     }
 
-    return obj[prop];
+    return obj[prop]
   }
-};
+}
 
 /**
  * Returns a factory function for vectors of the specified dimension.
  * @param {number} dim The dimension of the new vector type.
- * 
+ *
  * @returns {Function} A factory (not a constructor) for creating new vecs.
  */
-function newVecType(dim){
-  var dim = Number(dim);
+function getVecType (dim) {
+  dim = Number(dim)
 
-  if(!(dim in vecTypes)){
-    assert(!isNaN(dim), 'dimension must be coercible to a number.');
-    assert(dim > 1, 'dimension must be greater than 1.');
-    assert(Number.isInteger(dim), 'dimension must be an integer.');
+  if (!(dim in vecTypes)) {
+    assert(!isNaN(dim), 'dimension must be coercible to a number.')
+    assert(dim > 1, 'dimension must be greater than 1.')
+    assert(Number.isInteger(dim), 'dimension must be an integer.')
 
     // Doing a little big of exploiting ES6 to dynamically name the class
-    var classname = 'vec' + dim;
-    var vecType = ({[classname]: class extends vecn{
-      constructor(...args){
-        if(args.length === 1 && args[0] instanceof vecn){
-          assert(args[0].dim <= dim);
-          args = promoteArrayDimension(args[0].toArray(), dim);
+    var classname = 'vec' + dim
+    var VecType = ({[classname]: class extends vecn {
+      constructor (...args) {
+        if (args.length === 1 && args[0] instanceof vecn) {
+          assert(args[0].dim <= dim)
+          args = promoteArrayDimension(args[0].toArray(), dim)
         }
-        super(dim, args);
+        super(dim, args)
         Object.defineProperty(this, 'dim', {
           value: dim,
           writable: false,
           enumerable: false
-        });
+        })
       }
-    }})[classname];
+    }})[classname]
 
-    vecTypes[dim] = function (...args){
-      var target = new vecType(...args);
-      Object.preventExtensions(target);
-      return new Proxy(target, validator);
-    };
+    vecTypes[dim] = function (...args) {
+      var target = new VecType(...args)
+      Object.preventExtensions(target)
+      return new Proxy(target, validator)
+    }
   }
 
-  return vecTypes[dim];
+  return vecTypes[dim]
 }
 
 /**
  * The correct function for determining whether an object is a vecn.
  * @param {*} v The object in question.
- * 
+ *
  * @returns {boolean} True if the object is an instance of vecn.
  */
-function isVec(v){
-  return v instanceof vecn;
+function isVec (v) {
+  return v instanceof vecn
 }
 
 /**
@@ -432,19 +432,19 @@ const namedIndices = [
   {x: 0, y: 1, z: 2, w: 3},
   {r: 0, g: 1, b: 2, a: 3},
   {s: 0, t: 1, p: 2, q: 3}
-];
+]
 
 /**
  * Gets the set of symbols corresponding to indices used for swizzling.
  * @private
  * @param {string} s The string used as a property to swizzle.
- * 
+ *
  * @returns {Object} A map from characters to indices.
  */
-function getSwizzleSymbolSet(s){
+function getSwizzleSymbolSet (s) {
   return namedIndices.find((set) => {
-    return s.split('').every((c) => c in set);
-  });
+    return s.split('').every((c) => c in set)
+  })
 }
 
 /**
@@ -454,23 +454,23 @@ function getSwizzleSymbolSet(s){
  * 2, 3, or 4, but this isn't enforced here.
  * @param {string} s The property being used to swizzle (e.g. 'xxy' or 'z').
  * @param {Object} set A map from characters to indices (assumed to be valid).
- * 
+ *
  * @returns {undefined|number|vecn} Either undefined (if s isn't a valid swizzle
  * string), a number (if s has a length of 1), or a vecn where the values have
  * been rearranged according to the order given in s.
  */
-function swizzleGet(v, s, set){
-  var newDim = s.length;
+function swizzleGet (v, s, set) {
+  var newDim = s.length
 
-  if(newDim === 1){
-    return v[set[s]];
+  if (newDim === 1) {
+    return v[set[s]]
   }
 
   var values = s.split('').reduce((acc, x) => {
-    var i = set[x];
-    return acc && i < v.dim ? acc.concat([v[i]]) : undefined;
-  }, []);
-  return values ? new vecTypes[newDim](...values) : values;
+    var i = set[x]
+    return acc && i < v.dim ? acc.concat([v[i]]) : undefined
+  }, [])
+  return values ? new vecTypes[newDim](...values) : values
 }
 
 /**
@@ -481,38 +481,36 @@ function swizzleGet(v, s, set){
  * @param {string} s The property being used to swizzle (e.g. 'xyz' or 'xz').
  * @param {Object} set A map from characters to indices (assumed to be valid).
  * @param {number|number[]} newVals The right hand side of the assignment
- * 
+ *
  * @returns {vecn} A copy of v with the correct elements replaced.
  */
-function swizzleSet(v, s, set, newVals){
-  if(s.length === 1){
-    if(typeof(newVals) !== 'number'){
-      throw new TypeError('Must set to a number');
+function swizzleSet (v, s, set, newVals) {
+  if (s.length === 1) {
+    if (typeof newVals !== 'number') {
+      throw new TypeError('Must set to a number')
     }
-    v[set[s]] = newVals;
-    return;
+    v[set[s]] = newVals
+    return
   }
 
-  assert(newVals instanceof Array);
-  assert.equal(s.length, newVals.length);
-  assert(newVals.every((item) => typeof(item) === 'number'));
-  if(s.split('').some((c) => set[c] >= v.dim)){
-    return;
+  assert(newVals instanceof Array)
+  assert.equal(s.length, newVals.length)
+  assert(newVals.every((item) => typeof item === 'number'))
+  if (s.split('').some((c) => set[c] >= v.dim)) {
+    return
   }
 
-  var valid = true;
-  for(let i = 0, unique = {}; i < s.length; ++i){
-    if(unique.hasOwnProperty(s[i])){
-      valid = false;
-      break;
+  var valid = true
+  for (let i = 0, unique = {}; i < s.length; ++i) {
+    if (unique.hasOwnProperty(s[i])) {
+      valid = false
+      break
     }
-    unique[s[i]] = true;
+    unique[s[i]] = true
   }
-  assert(valid);
+  assert(valid)
 
-  s.split('').map((c) => set[c]).forEach((index, i) => {
-    v[index] = newVals[i];
-  });
+  s.split('').map((c) => set[c]).forEach((index, i) => { v[index] = newVals[i] })
 }
 
 /**
@@ -520,25 +518,25 @@ function swizzleSet(v, s, set, newVals){
  * @private
  * @param {Array} arr The source array.
  * @param {number} dim The dimension of the new array.
- * 
+ *
  * @returns {Array} A new array with length dim and arr as a prefix.
  */
-function promoteArrayDimension(arr, dim){
-  return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0);
+function promoteArrayDimension (arr, dim) {
+  return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0)
 }
 
 /**
  * Checks whether a provided string can be used as a valid index into an array.
  * @private
  * @param {string} n A string representation of the number in question.
- * 
+ *
  * @returns {boolean} True if n can be used to index an array.
  */
-function isIndex(n){
-	return !isNaN(n) &&
-	       Number(n).toString() === n &&
-	       Number.isInteger(Number(n)) &&
-         Number(n) >= 0;
+function isIndex (n) {
+  return !isNaN(n) &&
+         Number(n).toString() === n &&
+         Number.isInteger(Number(n)) &&
+         Number(n) >= 0
 }
 
 /**
@@ -546,23 +544,23 @@ function isIndex(n){
  * example, [[1, 2]] becomes [1, 2]. [[[['a'], true]]] becomes [['a'], true].
  * @private
  * @param {Array} arr The array to flatten.
- * 
+ *
  * @returns {Array} A reference to the innermost array in arr.
  */
-function flattenOuter(arr){
-  if(!(arr instanceof Array) || arr.length !== 1){
-    return arr;
+function flattenOuter (arr) {
+  if (!(arr instanceof Array) || arr.length !== 1) {
+    return arr
   }
-  if(arr[0] instanceof Array){
-    return flattenOuter(arr[0]);
+  if (arr[0] instanceof Array) {
+    return flattenOuter(arr[0])
   }
-  return arr;
+  return arr
 }
 
 module.exports = {
-  newVecType,
+  getVecType,
   isVec,
   vec2: vecTypes[2],
   vec3: vecTypes[3],
   vec4: vecTypes[4]
-};
+}
