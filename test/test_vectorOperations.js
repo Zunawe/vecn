@@ -200,4 +200,28 @@ suite('vector math', function () {
       assert(v1.normalize().x !== undefined)
     })
   })
+
+  suite('reflect', function () {
+    test('should correctly reflect vector', function () {
+      var expected, reflected
+
+      reflected = vec2(1, 0).reflect(vec2(1, 1))
+      assert.deepEqual(vec2(1, 0).reflect(vec2(1, 0)), vec2(-1, 0))
+
+      reflected = vec2(1, 0).reflect(vec2(1, 1))
+      expected = vec2(0, -1)
+      assert(reflected.approximatelyEquals(expected), `Expected {{ ${expected} }}, but got  {{ ${reflected} }}`)
+
+      reflected = vec2(1, -1).reflect(vec2(0, 1))
+      expected = vec2(1, 1)
+      assert(reflected.approximatelyEquals(expected), `Expected {{ ${expected} }}, but got  {{ ${reflected} }}`)
+    })
+
+    test('should correctly reflect vector with negative normal', function () {
+      var expected, reflected
+      reflected = vec2(1, -1).reflect(vec2(0, -1))
+      expected = vec2(1, 1)
+      assert(reflected.approximatelyEquals(expected), `Expected {{ ${expected} }}, but got  {{ ${reflected} }}`)
+    })
+  })
 })

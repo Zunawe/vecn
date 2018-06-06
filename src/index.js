@@ -5,8 +5,8 @@ const assert = require('assert')
  * @type {Object}
  * @private
  */
-var vecTypes = (function () {
-  var handler = {
+let vecTypes = (function () {
+  const handler = {
     get: function (obj, prop) {
       if (!obj.hasOwnProperty(prop)) {
         obj[prop] = getVecType(prop)
@@ -71,7 +71,7 @@ class vecn extends Array {
 
   /**
    * The L2 norm (Euclidian norm) of the vector.
-   * @returns {number} The L2 norm of the vector.
+   * @type {number}
    */
   get magnitude () {
     return this.pnorm(2)
@@ -193,6 +193,18 @@ class vecn extends Array {
     return Math.pow(this.map(Math.abs).pow(p).sum(), 1 / p)
   }
 
+  /**
+   * Reflects this vector across the provided vector. The normal can be imagined
+   * as a surface normal or as describing a hyperpalane.
+   * @param {number[]} normal A vector describing the hyperplane to reflect off of.
+   *
+   * @returns {vecn} The reflected vector.
+   */
+  reflect (normal) {
+    const n = normal.normalize()
+    return this.minus(n.times(2 * this.dot(n)))
+  }
+
   // --------------------------------------------------------------------------
   //   Extras
 
@@ -202,7 +214,7 @@ class vecn extends Array {
    * @returns {number[]} An array of indices corresponding to the max values.
    */
   argmax () {
-    var maxVal = this.max()
+    const maxVal = this.max()
     return this.reduce((acc, x, i) => x === maxVal ? acc.concat([i]) : acc, [])
   }
 
@@ -212,7 +224,7 @@ class vecn extends Array {
    * @returns {number[]} An array of indices corresponding to the min values.
    */
   argmin () {
-    var minVal = this.min()
+    const minVal = this.min()
     return this.reduce((acc, x, i) => x === minVal ? acc.concat([i]) : acc, [])
   }
 
@@ -228,7 +240,7 @@ class vecn extends Array {
     if (!indices.every((i) => i < this.dim)) {
       throw new RangeError('All elements of argument must be valid indices.')
     }
-    var v = []
+    let v = []
     indices.forEach((i) => v.push(this[i]))
     return vecTypes[v.length](v)
   }
@@ -300,7 +312,7 @@ class vecn extends Array {
    * @returns {vecn}
    */
   concat (...args) {
-    var result = super.concat.apply(this.toArray(), args)
+    const result = super.concat.apply(this.toArray(), args)
     return vecTypes[result.length](result)
   }
 
@@ -311,7 +323,7 @@ class vecn extends Array {
    * @returns {vecn|number[]}
    */
   filter (...args) {
-    var result = super.filter.apply(this.toArray(), args)
+    const result = super.filter.apply(this.toArray(), args)
     if (result.length > 0) {
       return vecTypes[result.length](result)
     }
@@ -325,7 +337,7 @@ class vecn extends Array {
    * @returns {vecn|Array}
    */
   map (...args) {
-    var result = super.map(...args)
+    const result = super.map(...args)
     if (result.every((x) => typeof x === 'number')) {
       return result
     }
@@ -337,7 +349,7 @@ class vecn extends Array {
    * entries.
    */
   slice (...args) {
-    var result = super.slice.apply(this.toArray(), args)
+    const result = super.slice.apply(this.toArray(), args)
     if (result.length > 0) {
       return vecTypes[result.length](result)
     }
@@ -349,7 +361,7 @@ class vecn extends Array {
    * removed elements to be replaced.
    */
   splice (...args) {
-    var test = this.toArray()
+    let test = this.toArray()
     test.splice(...args)
 
     assert.equal(test.length, this.dim, 'All removed elements must be replaced.')
@@ -357,16 +369,38 @@ class vecn extends Array {
 
     test.forEach((x, i) => { this[i] = x })
   }
+
+  toString () {
+    return this.reduce((s, x, i) => {
+      return s + x + (i === this.dim - 1 ? ' ' : ', ')
+    }, '[ ') + ']'
+  }
+}
+
+// --------------------------------------------------------------------------
+//   General Tools
+
+/**
+ * Adds an arbitrary number of vectors together. All vectors must be of the same
+ * dimension.
+ * @param {...vecn} vecs Vectors to add together.
+ *
+ * @returns {vecn} The sum of all the provided vectors.
+ */
+function add (...vecs) {
+  const dim = vecs[0].dim
+  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
+  return vecs.reduce((acc, v) => acc.plus(v), vecTypes[dim]())
 }
 
 /**
  * The validator to be used in the proxy for all vec objects. Catches swizzling
  * properties, makes sure assignment only works for indices, and disallows
- * non-numerical assignments.
+ * non-numerical assignments. Used in `getVecType`.
  * @type {Object}
  * @private
  */
-var validator = {
+let validator = {
   set: function (obj, prop, value) {
     if (prop === 'length') {
       return false
@@ -382,7 +416,7 @@ var validator = {
       }
     }
 
-    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
+    const swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
     if (obj.dim <= 4 && swizzleSymbolSet) {
       swizzleSet(obj, prop.toString(), swizzleSymbolSet, value)
       return true
@@ -391,7 +425,7 @@ var validator = {
     return false
   },
   get: function (obj, prop) {
-    var swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
+    const swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
     if (obj.dim <= 4 && swizzleSymbolSet) {
       return swizzleGet(obj, prop, swizzleSymbolSet)
     }
@@ -415,8 +449,8 @@ function getVecType (dim) {
     assert(Number.isInteger(dim), 'dimension must be an integer.')
 
     // Doing a little bit of exploiting ES6 to dynamically name the class
-    var classname = 'vec' + dim
-    var VecType = ({[classname]: class extends vecn {
+    let classname = 'vec' + dim
+    let VecType = ({[classname]: class extends vecn {
       constructor (...args) {
         if (args.length === 1 && args[0] instanceof vecn) {
           assert(args[0].dim <= dim)
@@ -432,7 +466,7 @@ function getVecType (dim) {
     }})[classname]
 
     vecTypes[dim] = function (...args) {
-      var target = new VecType(...args)
+      let target = new VecType(...args)
       Object.preventExtensions(target)
       return new Proxy(target, validator)
     }
@@ -450,6 +484,56 @@ function getVecType (dim) {
 function isVec (v) {
   return v instanceof vecn
 }
+
+/**
+ * Linearly interpolates between two vectors.
+ * @param {vecn} v1 The starting vector.
+ * @param {vecn} v2 The ending vector.
+ * @param {number} t The interpolant, which is clamped to the inteval [0, 1].
+ *
+ * @returns {vecn} The interpolated vector.
+ */
+function lerp (v1, v2, t) {
+  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
+  t = t < 0 ? 0 : (t > 1 ? 1 : t)
+  return v1.plus(v2.minus(v1).times(t))
+}
+
+/**
+ * Multiplies an arbitrary number of vectors together. All vectors must be of the same
+ * dimension.
+ * @param {...vecn} vecs Vectors to multiply together.
+ *
+ * @returns {vecn} The product of all the provided vectors.
+ */
+function multiply (...vecs) {
+  const dim = vecs[0].dim
+  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
+  return vecs.reduce((acc, v) => acc.times(v), vecTypes[dim](1))
+}
+
+/**
+ * Spherically interpolates between two vectors.
+ * @param {vecn} v1 The starting vector.
+ * @param {vecn} v2 The ending vector.
+ * @param {number} t The interpolant, which is clamped to the inteval [0, 1].
+ *
+ * @returns {vecn} The interpolated vector.
+ */
+function slerp (v1, v2, t) {
+  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
+  t = t < 0 ? 0 : (t > 1 ? 1 : t)
+  let dot = v1.normalize().dot(v2.normalize())
+  dot = dot < -1 ? -1 : (dot > 1 ? 1 : dot)
+  const theta = Math.acos(dot) * t
+  const relative = v2.minus(v1.times(dot)).normalize()
+  const magnitude = v1.magnitude + ((v2.magnitude - v1.magnitude) * t)
+  return v1.times(Math.cos(theta)).plus(relative.times(Math.sin(theta)))
+    .normalize().times(magnitude)
+}
+
+// --------------------------------------------------------------------------
+//   Swizzling
 
 /**
  * The index corresponding to common names for indexing vectors.
@@ -489,7 +573,7 @@ function getSwizzleSymbolSet (s) {
  * been rearranged according to the order given in s.
  */
 function swizzleGet (v, s, set) {
-  var newDim = s.length
+  const newDim = s.length
 
   if (newDim === 1) {
     return v[set[s]]
@@ -529,7 +613,7 @@ function swizzleSet (v, s, set, newVals) {
     return
   }
 
-  var valid = true
+  let valid = true
   for (let i = 0, unique = {}; i < s.length; ++i) {
     if (unique.hasOwnProperty(s[i])) {
       valid = false
@@ -542,31 +626,8 @@ function swizzleSet (v, s, set, newVals) {
   s.split('').map((c) => set[c]).forEach((index, i) => { v[index] = newVals[i] })
 }
 
-/**
- * Lengthens an exsting array and fills new entries with 0 (does not mutate).
- * @private
- * @param {Array} arr The source array.
- * @param {number} dim The dimension of the new array.
- *
- * @returns {Array} A new array with length dim and arr as a prefix.
- */
-function promoteArrayDimension (arr, dim) {
-  return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0)
-}
-
-/**
- * Checks whether a provided string can be used as a valid index into an array.
- * @private
- * @param {string} n A string representation of the number in question.
- *
- * @returns {boolean} True if n can be used to index an array.
- */
-function isIndex (n) {
-  return !isNaN(n) &&
-         Number(n).toString() === n &&
-         Number.isInteger(Number(n)) &&
-         Number(n) >= 0
-}
+// --------------------------------------------------------------------------
+//   Helpers
 
 /**
  * Removes outer arrays and returns a reference to the innermost array. For
@@ -587,63 +648,29 @@ function flattenOuter (arr) {
 }
 
 /**
- * Adds an arbitrary number of vectors together. All vectors must be of the same
- * dimension.
- * @param {...vecn} vecs Vectors to add together.
+ * Checks whether a provided string can be used as a valid index into an array.
+ * @private
+ * @param {string} n A string representation of the number in question.
  *
- * @returns {vecn} The sum of all the provided vectors.
+ * @returns {boolean} True if n can be used to index an array.
  */
-function add (...vecs) {
-  var dim = vecs[0].dim
-  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
-  return vecs.reduce((acc, v) => acc.plus(v), vecTypes[dim]())
+function isIndex (n) {
+  return !isNaN(n) &&
+         Number(n).toString() === n &&
+         Number.isInteger(Number(n)) &&
+         Number(n) >= 0
 }
 
 /**
- * Multiplies an arbitrary number of vectors together. All vectors must be of the same
- * dimension.
- * @param {...vecn} vecs Vectors to multiply together.
+ * Lengthens an exsting array and fills new entries with 0 (does not mutate).
+ * @private
+ * @param {Array} arr The source array.
+ * @param {number} dim The dimension of the new array.
  *
- * @returns {vecn} The product of all the provided vectors.
+ * @returns {Array} A new array with length dim and arr as a prefix.
  */
-function multiply (...vecs) {
-  var dim = vecs[0].dim
-  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
-  return vecs.reduce((acc, v) => acc.times(v), vecTypes[dim](1))
-}
-
-/**
- * Linearly interpolates between two vectors.
- * @param {vecn} v1 The starting vector.
- * @param {vecn} v2 The ending vector.
- * @param {number} t The interpolant, which is clamped to the inteval [0, 1].
- *
- * @returns {vecn} The interpolated vector.
- */
-function lerp (v1, v2, t) {
-  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
-  t = t < 0 ? 0 : (t > 1 ? 1 : t)
-  return v1.plus(v2.minus(v1).times(t))
-}
-
-/**
- * Spherically interpolates between two vectors.
- * @param {vecn} v1 The starting vector.
- * @param {vecn} v2 The ending vector.
- * @param {number} t The interpolant, which is clamped to the inteval [0, 1].
- *
- * @returns {vecn} The interpolated vector.
- */
-function slerp (v1, v2, t) {
-  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
-  t = t < 0 ? 0 : (t > 1 ? 1 : t)
-  var dot = v1.normalize().dot(v2.normalize())
-  dot = dot < -1 ? -1 : (dot > 1 ? 1 : dot)
-  var theta = Math.acos(dot) * t
-  var relative = v2.minus(v1.times(dot)).normalize()
-  var magnitude = v1.magnitude + ((v2.magnitude - v1.magnitude) * t)
-  return v1.times(Math.cos(theta)).plus(relative.times(Math.sin(theta)))
-    .normalize().times(magnitude)
+function promoteArrayDimension (arr, dim) {
+  return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0)
 }
 
 module.exports = {
