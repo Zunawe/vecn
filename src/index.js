@@ -224,6 +224,10 @@ class vecn extends Array {
    * @returns {vecn} A new vector from the provided indices.
    */
   choose (indices) {
+    assert(Array.isArray(indices), 'Argument must be an array of indices.')
+    if (!indices.every((i) => i < this.dim)) {
+      throw new RangeError('All elements of argument must be valid indices.')
+    }
     var v = []
     indices.forEach((i) => v.push(this[i]))
     return vecTypes[v.length](v)
