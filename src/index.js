@@ -38,11 +38,16 @@ class vecn extends Array {
     if (args.length === 0) {
       args = [0]
     }
-    if (args.length === 1) {
+    if (args.length === 1 && typeof args[0] === 'number') {
       args = Array(dimension).fill(args[0])
     }
 
-    super(...args)
+    if (dimension > 1) {
+      super(...args)
+    } else {
+      super(1)
+      this[0] = args[0]
+    }
 
     Object.defineProperties(this, {
       pop: {
@@ -274,14 +279,14 @@ class vecn extends Array {
   }
 
   /**
-   * Same as Array.prototype.filter, but returns an Array if the result has 0 or
-   * 1 entries.
+   * Same as Array.prototype.filter, but returns an Array if the result has 0
+   * entries.
    *
    * @returns {vecn|number[]}
    */
   filter (...args) {
     var result = super.filter.apply(this.toArray(), args)
-    if (result.length > 1) {
+    if (result.length > 0) {
       return vecTypes[result.length](result)
     }
     return result
@@ -302,12 +307,12 @@ class vecn extends Array {
   }
 
   /**
-   * Same as Array.prototype.slice, but returns an Array if the result has 0 or
-   * 1 entries.
+   * Same as Array.prototype.slice, but returns an Array if the result has 0
+   * entries.
    */
   slice (...args) {
     var result = super.slice.apply(this.toArray(), args)
-    if (result.length > 1) {
+    if (result.length > 0) {
       return vecTypes[result.length](result)
     }
     return result
@@ -382,10 +387,10 @@ function getVecType (dim) {
 
   if (!(dim in vecTypes)) {
     assert(!isNaN(dim), 'dimension must be coercible to a number.')
-    assert(dim > 1, 'dimension must be greater than 1.')
+    assert(dim > 0, 'dimension must be positive.')
     assert(Number.isInteger(dim), 'dimension must be an integer.')
 
-    // Doing a little big of exploiting ES6 to dynamically name the class
+    // Doing a little bit of exploiting ES6 to dynamically name the class
     var classname = 'vec' + dim
     var VecType = ({[classname]: class extends vecn {
       constructor (...args) {

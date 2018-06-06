@@ -25,11 +25,6 @@ suite('array overrides', function () {
       assert(isVec(v.filter((v) => v > 1)))
     })
 
-    test('should become array for single number', function () {
-      assert.deepEqual(v.filter((v) => v > 2), [3])
-      assert(!isVec(v.filter((v) => v > 2)))
-    })
-
     test('should become array for empty array', function () {
       assert.deepEqual(v.filter((v) => v > 3), [])
       assert(!isVec(v.filter((v) => v > 3)))
@@ -52,11 +47,6 @@ suite('array overrides', function () {
       assert(isVec(v.slice()))
       assert.deepEqual(v.slice(1), v.yz)
       assert(isVec(v.slice(1)))
-    })
-
-    test('should become array for single number', function () {
-      assert.deepEqual(v.slice(0, 1), [1])
-      assert(!isVec(v.slice(0, 1)))
     })
 
     test('should become array for empty array', function () {

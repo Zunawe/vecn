@@ -1,5 +1,37 @@
 const assert = require('assert')
-const {vec2, vec3} = require('../src/index.js')
+const {vec2, vec3, getVecType} = require('../src/index.js')
+
+suite('getVecType', function () {
+  test('should return a function', function () {
+    assert(typeof getVecType(6) === 'function')
+  })
+
+  test('should return the same function for multiple calls', function () {
+    var f1 = getVecType(42)
+    var f2 = getVecType(42)
+    assert.equal(f1, f2)
+  })
+
+  test('should allow 1-dimesional vectors', function () {
+    assert.doesNotThrow(() => {
+      const vec1 = getVecType(1)
+      vec1()
+      vec1(5)
+    })
+  })
+
+  test('should NOT allow 0-dimesional vectors', function () {
+    assert.throws(() => getVecType(0), Error)
+  })
+
+  test('should NOT allow negative dimensions', function () {
+    assert.throws(() => getVecType(-5), Error)
+  })
+
+  test('should NOT allow fractal dimensions', function () {
+    assert.throws(() => getVecType(1.2), Error)
+  })
+})
 
 suite('vecType constructors', function () {
   test('should accept empty constructor', function () {
