@@ -203,7 +203,7 @@ class vecn extends Array {
    */
   argmax () {
     var maxVal = this.max()
-    return this.reduce((acc, n, i) => n === maxVal ? acc.concat([i]) : acc, [])
+    return this.reduce((acc, x, i) => x === maxVal ? acc.concat([i]) : acc, [])
   }
 
   /**
@@ -213,7 +213,7 @@ class vecn extends Array {
    */
   argmin () {
     var minVal = this.min()
-    return this.reduce((acc, n, i) => n === minVal ? acc.concat([i]) : acc, [])
+    return this.reduce((acc, x, i) => x === minVal ? acc.concat([i]) : acc, [])
   }
 
   /**
@@ -240,11 +240,19 @@ class vecn extends Array {
    * @returns {boolean} True if both vectors have the same dimension and values.
    */
   equals (v) {
-    return v.length === this.dim && v.every((n, i) => this[i] === n)
+    return v.length === this.dim && v.every((x, i) => this[i] === x)
   }
 
+  /**
+   * Returns whether every element in each vector is approximately equal.
+   * @param {number[]} v A vector to test against.
+   * @param {number} epsilon The largest meaningful difference between twho values.
+   *
+   * @returns {boolean} True if both vectors have the same dimension and the
+   * distance between each number is less than epsilon.
+   */
   approximatelyEquals (v, epsilon = 0.00000001) {
-    return v.length === this.dim && v.every((n, i) => Math.abs(this[i] - n) < epsilon)
+    return v.length === this.dim && v.every((x, i) => Math.abs(this[i] - x) < epsilon)
   }
 
   /**
@@ -271,7 +279,7 @@ class vecn extends Array {
    * @returns {number} The sum of the components of this vector.
    */
   sum () {
-    return this.reduce((acc, n) => acc + n, 0)
+    return this.reduce((acc, x) => acc + x, 0)
   }
 
   /**
@@ -318,7 +326,7 @@ class vecn extends Array {
    */
   map (...args) {
     var result = super.map(...args)
-    if (result.every((n) => typeof n === 'number')) {
+    if (result.every((x) => typeof x === 'number')) {
       return result
     }
     return result.toArray()
@@ -345,11 +353,9 @@ class vecn extends Array {
     test.splice(...args)
 
     assert.equal(test.length, this.dim, 'All removed elements must be replaced.')
-    assert(test.every((n) => typeof n === 'number'), 'All elements must be numbers.')
+    assert(test.every((x) => typeof x === 'number'), 'All elements must be numbers.')
 
-    test.forEach((n, i) => {
-      this[i] = n
-    })
+    test.forEach((x, i) => { this[i] = x })
   }
 }
 

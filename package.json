@@ -6,7 +6,7 @@
     "math",
     "vector",
     "swizzling",
-    "javascript",
+    "swizzle",
     "array"
   ],
   "main": "src/index.js",
@@ -14,12 +14,15 @@
     "src/*"
   ],
   "scripts": {
-    "test": "standard src && nyc --reporter=html --reporter=text mocha -u tdd",
+    "test": "standard && nyc --reporter=html --reporter=text mocha -u tdd",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "docs": "ls docs | while read line; do echo \"docs/$line\"; done | grep -v \"docs/conf.json\" | xargs rm -rf && jsdoc src -d docs -P ./package.json -R ./README.md -t ./node_modules/ink-docstrap/template -c docs/conf.json && mv docs/**/**/* docs/ && rm -r docs/vecn"
   },
   "standard": {
-    "env": "mocha"
+    "env": "mocha",
+    "ignore": [
+      "docs"
+    ]
   },
   "author": "Bryce Wilson",
   "license": "MIT",
