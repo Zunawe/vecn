@@ -37,6 +37,10 @@ suite('extras', function () {
   test('min', function () {
     assert.equal(v.min(), 1)
   })
+
+  test('equals', function () {
+    assert(v.equals(vec3(1, 0, 0).plus(vec3(0, 5, 5))))
+  })
 })
 
 suite('liberal inputs', function () {

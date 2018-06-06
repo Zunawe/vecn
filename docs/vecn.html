@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#getVecType">getVecType</a></li><li><a href="global.html#isVec">isVec</a></li>
+					<li><a href="global.html#add">add</a></li><li><a href="global.html#getVecType">getVecType</a></li><li><a href="global.html#isVec">isVec</a></li><li><a href="global.html#lerp">lerp</a></li><li><a href="global.html#multiply">multiply</a></li><li><a href="global.html#slerp">slerp</a></li>
 				</ul>
 			</li>
 			
@@ -1131,6 +1131,158 @@
             
 <hr>
 <dt>
+    <h4 class="name" id="equals"><span class="type-signature"></span>equals(v)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns whether every element in each vector is equal.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>v</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A vector to test against.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>True if both vectors have the same dimension and values.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
     <h4 class="name" id="filter"><span class="type-signature"></span>filter()</h4>
     
     
@@ -1139,7 +1291,7 @@
 
     
     <div class="description">
-        <p>Same as Array.prototype.filter, but returns an Array if the result has 0 or<br>1 entries.</p>
+        <p>Same as Array.prototype.filter, but returns an Array if the result has 0<br>entries.</p>
     </div>
     
 
@@ -2363,7 +2515,7 @@
 
     
     <div class="description">
-        <p>Same as Array.prototype.slice, but returns an Array if the result has 0 or<br>1 entries.</p>
+        <p>Same as Array.prototype.slice, but returns an Array if the result has 0<br>entries.</p>
     </div>
     
 

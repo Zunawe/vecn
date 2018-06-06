@@ -234,6 +234,20 @@ class vecn extends Array {
   }
 
   /**
+   * Returns whether every element in each vector is equal.
+   * @param {number[]} v A vector to test against.
+   *
+   * @returns {boolean} True if both vectors have the same dimension and values.
+   */
+  equals (v) {
+    return v.length === this.dim && v.every((n, i) => this[i] === n)
+  }
+
+  approximatelyEquals (v, epsilon = 0.00000001) {
+    return v.length === this.dim && v.every((n, i) => Math.abs(this[i] - n) < epsilon)
+  }
+
+  /**
    * Returns the max value of this vector.
    *
    * @returns {number} The max value of this vector.
@@ -566,10 +580,75 @@ function flattenOuter (arr) {
   return arr
 }
 
+/**
+ * Adds an arbitrary number of vectors together. All vectors must be of the same
+ * dimension.
+ * @param {...vecn} vecs Vectors to add together.
+ *
+ * @returns {vecn} The sum of all the provided vectors.
+ */
+function add (...vecs) {
+  var dim = vecs[0].dim
+  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
+  return vecs.reduce((acc, v) => acc.plus(v), vecTypes[dim]())
+}
+
+/**
+ * Multiplies an arbitrary number of vectors together. All vectors must be of the same
+ * dimension.
+ * @param {...vecn} vecs Vectors to multiply together.
+ *
+ * @returns {vecn} The product of all the provided vectors.
+ */
+function multiply (...vecs) {
+  var dim = vecs[0].dim
+  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
+  return vecs.reduce((acc, v) => acc.times(v), vecTypes[dim](1))
+}
+
+/**
+ * Linearly interpolates between two vectors.
+ * @param {vecn} v1 The starting vector.
+ * @param {vecn} v2 The ending vector.
+ * @param {number} t The interpolant, which is clamped to the inteval [0, 1].
+ *
+ * @returns {vecn} The interpolated vector.
+ */
+function lerp (v1, v2, t) {
+  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
+  t = t < 0 ? 0 : (t > 1 ? 1 : t)
+  return v1.plus(v2.minus(v1).times(t))
+}
+
+/**
+ * Spherically interpolates between two vectors.
+ * @param {vecn} v1 The starting vector.
+ * @param {vecn} v2 The ending vector.
+ * @param {number} t The interpolant, which is clamped to the inteval [0, 1].
+ *
+ * @returns {vecn} The interpolated vector.
+ */
+function slerp (v1, v2, t) {
+  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
+  t = t < 0 ? 0 : (t > 1 ? 1 : t)
+  var dot = v1.normalize().dot(v2.normalize())
+  dot = dot < -1 ? -1 : (dot > 1 ? 1 : dot)
+  var theta = Math.acos(dot) * t
+  var relative = v2.minus(v1.times(dot)).normalize()
+  var magnitude = v1.magnitude + ((v2.magnitude - v1.magnitude) * t)
+  return v1.times(Math.cos(theta)).plus(relative.times(Math.sin(theta)))
+    .normalize().times(magnitude)
+}
+
 module.exports = {
   getVecType,
   isVec,
   vec2: vecTypes[2],
   vec3: vecTypes[3],
-  vec4: vecTypes[4]
+  vec4: vecTypes[4],
+
+  add,
+  multiply,
+  lerp,
+  slerp
 }
