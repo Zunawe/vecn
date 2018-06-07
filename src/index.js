@@ -31,14 +31,14 @@ class vecn extends Array {
    */
   constructor (dimension, args) {
     args = flattenOuter(args)
-    assert(args.every((x) => typeof x === 'number'), 'All arguments must be numbers.')
+    assert(args.every((x) => type(x) === 'Number'), 'All arguments must be numbers.')
     assert(args.length === 0 || args.length === 1 || args.length === dimension,
       'Argument list must be empty, have a single number, or have a length equal to the dimension.')
 
     if (args.length === 0) {
       args = [0]
     }
-    if (args.length === 1 && typeof args[0] === 'number') {
+    if (args.length === 1 && type(args[0]) === 'Number') {
       args = Array(dimension).fill(args[0])
     }
 
@@ -88,8 +88,8 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the divided components.
    */
   div (v) {
-    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
-    if (typeof v === 'number') {
+    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
     return vecTypes[this.dim](this.pow(-1).times(v).pow(-1))
@@ -104,8 +104,8 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the combined components.
    */
   minus (v) {
-    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
-    if (typeof v === 'number') {
+    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
     return vecTypes[this.dim](this.neg().plus(v).neg())
@@ -128,8 +128,8 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the summed components.
    */
   plus (v) {
-    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
-    if (typeof v === 'number') {
+    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
     return vecTypes[this.dim](this.map((x, i) => x + v[i]))
@@ -153,8 +153,8 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the multiplied components.
    */
   times (v) {
-    assert(v.length === this.dim || typeof v === 'number', 'Argument must be a scalar or of the same dimension.')
-    if (typeof v === 'number') {
+    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
     return vecTypes[this.dim](this.map((x, i) => x * v[i]))
@@ -258,7 +258,7 @@ class vecn extends Array {
   /**
    * Returns whether every element in each vector is approximately equal.
    * @param {number[]} v A vector to test against.
-   * @param {number} epsilon The largest meaningful difference between twho values.
+   * @param {number} epsilon The largest meaningful difference between two values.
    *
    * @returns {boolean} True if both vectors have the same dimension and the
    * distance between each number is less than epsilon.
@@ -338,7 +338,7 @@ class vecn extends Array {
    */
   map (...args) {
     const result = super.map(...args)
-    if (result.every((x) => typeof x === 'number')) {
+    if (result.every((x) => type(x) === 'Number')) {
       return result
     }
     return result.toArray()
@@ -365,7 +365,7 @@ class vecn extends Array {
     test.splice(...args)
 
     assert.equal(test.length, this.dim, 'All removed elements must be replaced.')
-    assert(test.every((x) => typeof x === 'number'), 'All elements must be numbers.')
+    assert(test.every((x) => type(x) === 'Number'), 'All elements must be numbers.')
 
     test.forEach((x, i) => { this[i] = x })
   }
@@ -408,7 +408,7 @@ let validator = {
     if (isIndex(prop)) {
       if (Number(prop) >= obj.dim) {
         throw new RangeError('Vector may not have more elements than dimension.')
-      } else if (typeof value !== 'number') {
+      } else if (type(value) !== 'Number') {
         throw new TypeError('Vectors may only contain numbers.')
       } else {
         obj[prop] = value
@@ -599,7 +599,7 @@ function swizzleGet (v, s, set) {
  */
 function swizzleSet (v, s, set, newVals) {
   if (s.length === 1) {
-    if (typeof newVals !== 'number') {
+    if (type(newVals) !== 'Number') {
       throw new TypeError('Must set to a number')
     }
     v[set[s]] = newVals
@@ -608,7 +608,7 @@ function swizzleSet (v, s, set, newVals) {
 
   assert(newVals instanceof Array)
   assert.equal(s.length, newVals.length)
-  assert(newVals.every((item) => typeof item === 'number'))
+  assert(newVals.every((item) => type(item) === 'Number'))
   if (s.split('').some((c) => set[c] >= v.dim)) {
     return
   }
@@ -671,6 +671,10 @@ function isIndex (n) {
  */
 function promoteArrayDimension (arr, dim) {
   return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0)
+}
+
+function type (obj) {
+  return Object.prototype.toString.call(obj).slice(8, -1)
 }
 
 module.exports = {
