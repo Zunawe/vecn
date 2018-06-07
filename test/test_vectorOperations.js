@@ -46,9 +46,9 @@ suite('arithmetic', function () {
     })
 
     test('should NOT add vecs of different dimensions', function () {
-      assert.throws(() => v1.plus(v3), Error)
-      assert.throws(() => v3.plus(), Error)
-      assert.throws(() => v3.plus([1, 2, 3, 4]), Error)
+      assert.throws(() => v1.plus(v3), TypeError)
+      assert.throws(() => v3.plus(), TypeError)
+      assert.throws(() => v3.plus([1, 2, 3, 4]), TypeError)
     })
   })
 
@@ -171,6 +171,10 @@ suite('vector math', function () {
 
     test('should correctly dot array with vec', function () {
       assert.equal(v1.dot([-1, 1, 1]), 4)
+    })
+
+    test('should NOT dot vecs of different dimensions', function () {
+      assert.throws(() => v1.dot([1, 2]), TypeError)
     })
   })
 

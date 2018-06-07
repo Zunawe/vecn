@@ -31,6 +31,10 @@ suite('getVecType', function () {
   test('should NOT allow fractal dimensions', function () {
     assert.throws(() => getVecType(1.2), Error)
   })
+
+  test('should NOT allow invalid arguments', function () {
+    assert.throws(() => getVecType('test'), Error)
+  })
 })
 
 suite('vecType constructors', function () {

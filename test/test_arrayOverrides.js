@@ -65,6 +65,10 @@ suite('array overrides', function () {
     test('should err if the dimension is not the same after the operation', function () {
       assert.throws(() => v.splice(0, 2, 5), Error)
     })
+
+    test('should err if the result contains non-numbers', function () {
+      assert.throws(() => v.splice(0, 1, 'test'), TypeError)
+    })
   })
 })
 

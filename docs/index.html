@@ -104,12 +104,12 @@
 <pre class="prettyprint source lang-js"><code>const {vec3} = require('vecn')
 
 let v = vec3(1, 2, 3)
-console.log(v)</code></pre><pre class="prettyprint source lang-js"><code>vec3 [ 1, 2, 3 ]</code></pre><p>If you need to create your own vector type:</p>
+console.log(v)</code></pre><pre class="prettyprint source lang-js"><code>[ 1, 2, 3 ]</code></pre><p>If you need to create your own vector type:</p>
 <pre class="prettyprint source lang-js"><code>const vecn = require('vecn')
 
 const vec5 = vecn.getVecType(5)
 var v = vec5(1, 2, 3, 4, 5)
-console.log(v)</code></pre><pre class="prettyprint source lang-js"><code>vec5 [ 1, 2, 3, 4, 5 ]</code></pre><p>For a more in-depth description of available vector methods, see the <a href="https://zunawe.github.io/vecn">documentation</a>.</p>
+console.log(v)</code></pre><pre class="prettyprint source lang-js"><code>[ 1, 2, 3, 4, 5 ]</code></pre><p>For a more in-depth description of available vector methods, see the <a href="https://zunawe.github.io/vecn">documentation</a>.</p>
 <h4>Swizzling</h4><p>Swizzling is a technique used in GLSL that allows you to access a vector's components by name and build new vectors from them. It works the same here at arbitrary length. It's easiest to see in an example:</p>
 <pre class="prettyprint source lang-js"><code>var v = vec4(1, 2, 3, 4)
 
@@ -124,7 +124,7 @@ v.zywwxyyz                   // vec8 [ 3, 2, 4, 4, 1, 2, 2, 3 ]</code></pre><p>W
 <pre class="prettyprint source lang-js"><code>var v = vec3(1, 2, 3)
 
 v.xz = [4, 5]
-console.log(v)</code></pre><pre class="prettyprint source lang-js"><code>vec3 [ 4, 2, 5 ]</code></pre><p>Swizzling only works for <code>vec2</code>, <code>vec3</code>, and <code>vec4</code> (with plans to extend it with custom accessors).</p>
+console.log(v)</code></pre><pre class="prettyprint source lang-js"><code>[ 4, 2, 5 ]</code></pre><p>Swizzling only works for <code>vec2</code>, <code>vec3</code>, and <code>vec4</code> (with plans to extend it with custom accessors).</p>
 <h4>Important Nuance</h4><p>When creating a new vecType, you <em>are</em> generating a new class. However, this class is hidden behind a function that creates the object for you and returns a Proxy. Therefore, the function returned by <code>vecn.getVecType</code> is <strong>not</strong> a constructor. Since the <code>new</code> keyword implies a <code>return this</code> at the end of the function, but the function already returns, the existence of a <code>new</code> before the function call has no effect. The following code explains the importance:</p>
 <pre class="prettyprint source lang-js"><code>const vec2 = vecn.getVecType(2)
 

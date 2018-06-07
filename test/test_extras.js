@@ -25,9 +25,10 @@ suite('extras', function () {
   })
 
   test('choose throws for invalid input', function () {
-    assert.throws(() => { v.choose([-1]) }, Error)
-    assert.throws(() => { v.choose([1.2, 2]) }, Error)
+    assert.throws(() => { v.choose([-1]) }, RangeError)
+    assert.throws(() => { v.choose([1.2, 2]) }, RangeError)
     assert.throws(() => { v.choose([3]) }, RangeError)
+    assert.throws(() => { v.choose(assert) }, TypeError)
   })
 
   test('max', function () {

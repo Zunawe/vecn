@@ -23,7 +23,7 @@ console.log(v)
 ```
 
 ```js
-vec3 [ 1, 2, 3 ]
+[ 1, 2, 3 ]
 ```
 
 If you need to create your own vector type:
@@ -36,7 +36,7 @@ console.log(v)
 ```
 
 ```js
-vec5 [ 1, 2, 3, 4, 5 ]
+[ 1, 2, 3, 4, 5 ]
 ```
 
 For a more in-depth description of available vector methods, see the [documentation](https://zunawe.github.io/vecn).
@@ -68,7 +68,7 @@ console.log(v)
 ```
 
 ```js
-vec3 [ 4, 2, 5 ]
+[ 4, 2, 5 ]
 ```
 
 Swizzling only works for `vec2`, `vec3`, and `vec4` (with plans to extend it with custom accessors).

@@ -1,5 +1,3 @@
-const assert = require('assert')
-
 /**
  * An object for memoizing vecType functions.
  * @type {Object}
@@ -31,9 +29,13 @@ class vecn extends Array {
    */
   constructor (dimension, args) {
     args = flattenOuter(args)
-    assert(args.every((x) => type(x) === 'Number'), 'All arguments must be numbers.')
-    assert(args.length === 0 || args.length === 1 || args.length === dimension,
-      'Argument list must be empty, have a single number, or have a length equal to the dimension.')
+
+    if (!args.every((x) => type(x) === 'Number')) {
+      throw new TypeError('All arguments must be numbers.')
+    }
+    if (args.length > 1 && args.length !== dimension) {
+      throw new Error('Argument list must be empty, have a single number, or have a length equal to the dimension.')
+    }
 
     if (args.length === 0) {
       args = [0]
@@ -88,7 +90,7 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the divided components.
    */
   div (v) {
-    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
@@ -104,7 +106,7 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the combined components.
    */
   minus (v) {
-    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
@@ -128,7 +130,7 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the summed components.
    */
   plus (v) {
-    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
@@ -153,7 +155,7 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the multiplied components.
    */
   times (v) {
-    assert(v.length === this.dim || type(v) === 'Number', 'Argument must be a scalar or of the same dimension.')
+    checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
       v = Array(this.dim).fill(v)
     }
@@ -170,7 +172,7 @@ class vecn extends Array {
    * @returns {number} The dot product between this and v.
    */
   dot (v) {
-    assert(v.length === this.dim, 'Argument must be of the same dimension.')
+    checkCompatibility(v, this.dim)
     return this.reduce((acc, x, i) => acc + (x * v[i]), 0)
   }
 
@@ -236,10 +238,13 @@ class vecn extends Array {
    * @returns {vecn} A new vector from the provided indices.
    */
   choose (indices) {
-    assert(Array.isArray(indices), 'Argument must be an array of indices.')
-    if (!indices.every((i) => i < this.dim)) {
+    if (!Array.isArray(indices)) {
+      throw new TypeError('Argument must be a list of indices.')
+    }
+    if (!indices.every((i) => i < this.dim && isIndex(i.toString()))) {
       throw new RangeError('All elements of argument must be valid indices.')
     }
+
     let v = []
     indices.forEach((i) => v.push(this[i]))
     return vecTypes[v.length](v)
@@ -364,8 +369,12 @@ class vecn extends Array {
     let test = this.toArray()
     test.splice(...args)
 
-    assert.equal(test.length, this.dim, 'All removed elements must be replaced.')
-    assert(test.every((x) => type(x) === 'Number'), 'All elements must be numbers.')
+    if (test.length !== this.dim) {
+      throw new Error('All removed elements must be replaced.')
+    }
+    if (!test.every((x) => type(x) === 'Number')) {
+      throw new TypeError('All elements must be numbers.')
+    }
 
     test.forEach((x, i) => { this[i] = x })
   }
@@ -389,7 +398,9 @@ class vecn extends Array {
  */
 function add (...vecs) {
   const dim = vecs[0].dim
-  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
+  if (!vecs.every((v) => v.dim === dim)) {
+    throw new TypeError('All vectors must have the same dimension.')
+  }
   return vecs.reduce((acc, v) => acc.plus(v), vecTypes[dim]())
 }
 
@@ -438,22 +449,24 @@ let validator = {
  * Returns a factory function for vectors of the specified dimension.
  * @param {number} dim The dimension of the new vector type.
  *
- * @returns {Function} A factory (not a constructor) for creating new vecs.
+ * @returns {getVecType~factory} A factory (not a constructor) for creating new vecs.
  */
 function getVecType (dim) {
   dim = Number(dim)
 
   if (!(dim in vecTypes)) {
-    assert(!isNaN(dim), 'dimension must be coercible to a number.')
-    assert(dim > 0, 'dimension must be positive.')
-    assert(Number.isInteger(dim), 'dimension must be an integer.')
+    if (isNaN(dim)) throw new TypeError('Dimension must be coercible to a number.')
+    if (dim <= 0) throw new RangeError('Dimension must be positive.')
+    if (!Number.isInteger(dim)) throw new RangeError('Dimension must be positive.')
 
     // Doing a little bit of exploiting ES6 to dynamically name the class
     let classname = 'vec' + dim
     let VecType = ({[classname]: class extends vecn {
       constructor (...args) {
         if (args.length === 1 && args[0] instanceof vecn) {
-          assert(args[0].dim <= dim)
+          if (args[0].dim > dim) {
+            throw new TypeError('Cannot demote vectors.')
+          }
           args = promoteArrayDimension(args[0].toArray(), dim)
         }
         super(dim, args)
@@ -465,11 +478,12 @@ function getVecType (dim) {
       }
     }})[classname]
 
-    vecTypes[dim] = function (...args) {
+    let factory = function factory (...args) {
       let target = new VecType(...args)
       Object.preventExtensions(target)
       return new Proxy(target, validator)
     }
+    vecTypes[dim] = factory
   }
 
   return vecTypes[dim]
@@ -494,7 +508,7 @@ function isVec (v) {
  * @returns {vecn} The interpolated vector.
  */
 function lerp (v1, v2, t) {
-  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
+  if (v1.dim !== v2.dim) throw new TypeError('Vectors must have the same dimension.')
   t = t < 0 ? 0 : (t > 1 ? 1 : t)
   return v1.plus(v2.minus(v1).times(t))
 }
@@ -508,7 +522,7 @@ function lerp (v1, v2, t) {
  */
 function multiply (...vecs) {
   const dim = vecs[0].dim
-  assert(vecs.every((v) => v.dim === dim), 'All vectors must have the same dimension.')
+  if (!vecs.every((v) => v.dim === dim)) throw new TypeError('All vectors must have the same dimension.')
   return vecs.reduce((acc, v) => acc.times(v), vecTypes[dim](1))
 }
 
@@ -521,7 +535,8 @@ function multiply (...vecs) {
  * @returns {vecn} The interpolated vector.
  */
 function slerp (v1, v2, t) {
-  assert(v1.dim === v2.dim, 'Vectors must have the same dimension.')
+  if (v1.dim !== v2.dim) throw new TypeError('Vectors must have the same dimension.')
+
   t = t < 0 ? 0 : (t > 1 ? 1 : t)
   let dot = v1.normalize().dot(v2.normalize())
   dot = dot < -1 ? -1 : (dot > 1 ? 1 : dot)
@@ -606,9 +621,10 @@ function swizzleSet (v, s, set, newVals) {
     return
   }
 
-  assert(newVals instanceof Array)
-  assert.equal(s.length, newVals.length)
-  assert(newVals.every((item) => type(item) === 'Number'))
+  if (!Array.isArray(newVals)) throw new TypeError('Right-hand side must be an array.')
+  if (s.length !== newVals.length) throw new TypeError('Right-hand side must have matching length.')
+  if (!newVals.every((item) => type(item) === 'Number')) throw new TypeError('All new values must be numbers.')
+
   if (s.split('').some((c) => set[c] >= v.dim)) {
     return
   }
@@ -621,13 +637,30 @@ function swizzleSet (v, s, set, newVals) {
     }
     unique[s[i]] = true
   }
-  assert(valid)
+  if (!valid) throw new SyntaxError('Swizzle assignment does not allow symbols to be repeated.')
 
   s.split('').map((c) => set[c]).forEach((index, i) => { v[index] = newVals[i] })
 }
 
 // --------------------------------------------------------------------------
 //   Helpers
+
+/**
+ * Checks whether something is valid to do vector operations with and throws
+ * a TypeError if not.
+ * @private
+ * @param {*} o An object to check.
+ * @param {number} dim The dimension to check against.
+ * @param {boolean} numberValid Whether scalars are compatible for the operation.
+ */
+function checkCompatibility (o, dim, numberValid = false) {
+  if (numberValid && type(o) === 'Number') {
+    return
+  } else if (o.length && o.length === dim) {
+    return
+  }
+  throw new TypeError(`Invalid argument. Input must have matching dimension ${numberValid ? 'or be a scalar' : ''}.`)
+}
 
 /**
  * Removes outer arrays and returns a reference to the innermost array. For
@@ -673,6 +706,14 @@ function promoteArrayDimension (arr, dim) {
   return [...Array(dim)].map((_, i) => i < arr.length ? arr[i] : 0)
 }
 
+/**
+ * Returns a string representing the type of an object. Similar to typeof, but
+ * better with wrapped primitives, null, Array, etc...
+ * @private
+ * @param {*} obj The object to check the type of.
+ *
+ * @returns {string} A capitalized string describing the perceived type (i.e. 'Number', 'Array', etc...)
+ */
 function type (obj) {
   return Object.prototype.toString.call(obj).slice(8, -1)
 }
