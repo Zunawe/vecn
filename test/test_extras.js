@@ -31,6 +31,12 @@ suite('extras', function () {
     assert.throws(() => { v.choose(assert) }, TypeError)
   })
 
+  test('copy', function () {
+    let copy = v.copy()
+    assert.notEqual(v, copy)
+    assert.deepEqual(v, copy)
+  })
+
   test('max', function () {
     assert.equal(v.max(), 5)
   })

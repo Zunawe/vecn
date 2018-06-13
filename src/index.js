@@ -92,9 +92,14 @@ class vecn extends Array {
   div (v) {
     checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
-      v = Array(this.dim).fill(v)
+      v = (new Array(this.dim)).fill(v)
     }
-    return vecTypes[this.dim](this.pow(-1).times(v).pow(-1))
+
+    let result = []
+    for (let i = 0; i < this.length; ++i) {
+      result[i] = this[i] / v[i]
+    }
+    return vecTypes[this.dim](result)
   }
 
   /**
@@ -108,9 +113,14 @@ class vecn extends Array {
   minus (v) {
     checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
-      v = Array(this.dim).fill(v)
+      v = (new Array(this.dim)).fill(v)
     }
-    return vecTypes[this.dim](this.neg().plus(v).neg())
+
+    let result = []
+    for (let i = 0; i < this.dim; ++i) {
+      result[i] = this[i] - v[i]
+    }
+    return vecTypes[this.dim](result)
   }
 
   /**
@@ -132,9 +142,14 @@ class vecn extends Array {
   plus (v) {
     checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
-      v = Array(this.dim).fill(v)
+      v = (new Array(this.dim)).fill(v)
     }
-    return vecTypes[this.dim](this.map((x, i) => x + v[i]))
+
+    let result = []
+    for (let i = 0; i < this.dim; ++i) {
+      result[i] = this[i] + v[i]
+    }
+    return vecTypes[this.dim](result)
   }
 
   /**
@@ -144,7 +159,11 @@ class vecn extends Array {
    * @returns {vecn} A new vector with the exponentiated components.
    */
   pow (p) {
-    return vecTypes[this.dim](this.map((x) => Math.pow(x, p)))
+    let result = []
+    for (let i = 0; i < this.dim; ++i) {
+      result[i] = Math.pow(this[i], p)
+    }
+    return vecTypes[this.dim](result)
   }
 
   /**
@@ -157,9 +176,14 @@ class vecn extends Array {
   times (v) {
     checkCompatibility(v, this.dim, true)
     if (type(v) === 'Number') {
-      v = Array(this.dim).fill(v)
+      v = (new Array(this.dim)).fill(v)
     }
-    return vecTypes[this.dim](this.map((x, i) => x * v[i]))
+
+    let result = []
+    for (let i = 0; i < this.dim; ++i) {
+      result[i] = this[i] * v[i]
+    }
+    return vecTypes[this.dim](result)
   }
 
   // --------------------------------------------------------------------------
@@ -173,7 +197,12 @@ class vecn extends Array {
    */
   dot (v) {
     checkCompatibility(v, this.dim)
-    return this.reduce((acc, x, i) => acc + (x * v[i]), 0)
+
+    let result = 0
+    for (let i = 0; i < this.dim; ++i) {
+      result += this[i] * v[i]
+    }
+    return result
   }
 
   /**
@@ -182,7 +211,7 @@ class vecn extends Array {
    * @returns {vecn} A new vector with scaled components.
    */
   normalize () {
-    return vecTypes[this.dim](this.div(this.magnitude))
+    return this.div(this.magnitude)
   }
 
   /**
@@ -192,7 +221,11 @@ class vecn extends Array {
    * @returns {number} The norm of this vector.
    */
   pnorm (p) {
-    return Math.pow(this.map(Math.abs).pow(p).sum(), 1 / p)
+    let result = 0
+    for (let i = 0; i < this.dim; ++i) {
+      result += Math.pow(Math.abs(this[i]), p)
+    }
+    return Math.pow(result, 1 / p)
   }
 
   /**
@@ -248,6 +281,16 @@ class vecn extends Array {
     let v = []
     indices.forEach((i) => v.push(this[i]))
     return vecTypes[v.length](v)
+  }
+
+  /**
+   * Creates a duplicate of this vector. Same as passing this vector through
+   * the factory that created it.
+   *
+   * @returns {vecn} A deep copy of this vector.
+   */
+  copy () {
+    return vecTypes[this.dim](this)
   }
 
   /**
@@ -407,11 +450,12 @@ function add (...vecs) {
 /**
  * The validator to be used in the proxy for all vec objects. Catches swizzling
  * properties, makes sure assignment only works for indices, and disallows
- * non-numerical assignments. Used in `getVecType`.
+ * non-numerical assignments. Used in getVecType.
+ * @constant
  * @type {Object}
  * @private
  */
-let validator = {
+const validator = {
   set: function (obj, prop, value) {
     if (prop === 'length') {
       return false
@@ -427,18 +471,18 @@ let validator = {
       }
     }
 
-    const swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
-    if (obj.dim <= 4 && swizzleSymbolSet) {
-      swizzleSet(obj, prop.toString(), swizzleSymbolSet, value)
+    const swizzleSymbolMap = getSwizzleSymbolMap(prop.toString())
+    if (obj.dim <= 4 && swizzleSymbolMap) {
+      swizzleSet(obj, prop.toString(), swizzleSymbolMap, value)
       return true
     }
 
     return false
   },
   get: function (obj, prop) {
-    const swizzleSymbolSet = getSwizzleSymbolSet(prop.toString())
-    if (obj.dim <= 4 && swizzleSymbolSet) {
-      return swizzleGet(obj, prop, swizzleSymbolSet)
+    const swizzleSymbolMap = getSwizzleSymbolMap(prop.toString())
+    if (obj.dim <= 4 && swizzleSymbolMap) {
+      return swizzleGet(obj, prop, swizzleSymbolMap)
     }
 
     return obj[prop]
@@ -449,7 +493,7 @@ let validator = {
  * Returns a factory function for vectors of the specified dimension.
  * @param {number} dim The dimension of the new vector type.
  *
- * @returns {getVecType~factory} A factory (not a constructor) for creating new vecs.
+ * @returns {Function} A factory (not a constructor) for creating new vecs.
  */
 function getVecType (dim) {
   dim = Number(dim)
@@ -569,9 +613,9 @@ const namedIndices = [
  *
  * @returns {Object} A map from characters to indices.
  */
-function getSwizzleSymbolSet (s) {
-  return namedIndices.find((set) => {
-    return s.split('').every((c) => c in set)
+function getSwizzleSymbolMap (s) {
+  return namedIndices.find((map) => {
+    return s.split('').every((c) => c in map)
   })
 }
 
@@ -598,7 +642,7 @@ function swizzleGet (v, s, set) {
     var i = set[x]
     return acc && i < v.dim ? acc.concat([v[i]]) : undefined
   }, [])
-  return values ? new vecTypes[newDim](...values) : values
+  return values ? new vecTypes[newDim](...values) : undefined
 }
 
 /**
@@ -607,17 +651,17 @@ function swizzleGet (v, s, set) {
  * @private
  * @param {vecn} v The starting vector.
  * @param {string} s The property being used to swizzle (e.g. 'xyz' or 'xz').
- * @param {Object} set A map from characters to indices (assumed to be valid).
+ * @param {Object} map A map from characters to indices (assumed to be valid).
  * @param {number|number[]} newVals The right hand side of the assignment
  *
  * @returns {vecn} A copy of v with the correct elements replaced.
  */
-function swizzleSet (v, s, set, newVals) {
+function swizzleSet (v, s, map, newVals) {
   if (s.length === 1) {
     if (type(newVals) !== 'Number') {
       throw new TypeError('Must set to a number')
     }
-    v[set[s]] = newVals
+    v[map[s]] = newVals
     return
   }
 
@@ -625,7 +669,7 @@ function swizzleSet (v, s, set, newVals) {
   if (s.length !== newVals.length) throw new TypeError('Right-hand side must have matching length.')
   if (!newVals.every((item) => type(item) === 'Number')) throw new TypeError('All new values must be numbers.')
 
-  if (s.split('').some((c) => set[c] >= v.dim)) {
+  if (s.split('').some((c) => map[c] >= v.dim)) {
     return
   }
 
@@ -639,7 +683,7 @@ function swizzleSet (v, s, set, newVals) {
   }
   if (!valid) throw new SyntaxError('Swizzle assignment does not allow symbols to be repeated.')
 
-  s.split('').map((c) => set[c]).forEach((index, i) => { v[index] = newVals[i] })
+  s.split('').map((c) => map[c]).forEach((index, i) => { v[index] = newVals[i] })
 }
 
 // --------------------------------------------------------------------------
@@ -651,7 +695,7 @@ function swizzleSet (v, s, set, newVals) {
  * @private
  * @param {*} o An object to check.
  * @param {number} dim The dimension to check against.
- * @param {boolean} numberValid Whether scalars are compatible for the operation.
+ * @param {boolean} [numberValid=false] Whether scalars are compatible for the operation.
  */
 function checkCompatibility (o, dim, numberValid = false) {
   if (numberValid && type(o) === 'Number') {
@@ -659,7 +703,7 @@ function checkCompatibility (o, dim, numberValid = false) {
   } else if (o.length && o.length === dim) {
     return
   }
-  throw new TypeError(`Invalid argument. Input must have matching dimension ${numberValid ? 'or be a scalar' : ''}.`)
+  throw new TypeError(`Invalid argument. Input must have matching dimension${numberValid ? 'or be a scalar' : ''}.`)
 }
 
 /**
