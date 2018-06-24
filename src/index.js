@@ -51,23 +51,21 @@ class vecn extends Array {
       this[0] = args[0]
     }
 
-    Object.defineProperties(this, {
-      pop: {
-        value: undefined,
-        enumerable: false
-      },
-      push: {
-        value: undefined,
-        enumerable: false
-      },
-      shift: {
-        value: undefined,
-        enumerable: false
-      },
-      unshift: {
-        value: undefined,
-        enumerable: false
-      }
+    Reflect.defineProperty(this, 'pop', {
+      value: undefined,
+      enumerable: false
+    })
+    Reflect.defineProperty(this, 'push', {
+      value: undefined,
+      enumerable: false
+    })
+    Reflect.defineProperty(this, 'shift', {
+      value: undefined,
+      enumerable: false
+    })
+    Reflect.defineProperty(this, 'unshift', {
+      value: undefined,
+      enumerable: false
     })
   }
 
@@ -514,7 +512,7 @@ function getVecType (dim) {
           args = promoteArrayDimension(args[0].toArray(), dim)
         }
         super(dim, args)
-        Object.defineProperty(this, 'dim', {
+        Reflect.defineProperty(this, 'dim', {
           value: dim,
           writable: false,
           enumerable: false
@@ -638,8 +636,8 @@ function swizzleGet (v, s, set) {
     return v[set[s]]
   }
 
-  var values = s.split('').reduce((acc, x) => {
-    var i = set[x]
+  let values = s.split('').reduce((acc, x) => {
+    let i = set[x]
     return acc && i < v.dim ? acc.concat([v[i]]) : undefined
   }, [])
   return values ? new vecTypes[newDim](...values) : undefined

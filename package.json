@@ -1,6 +1,9 @@
 {
   "name": "vecn",
   "version": "1.3.0",
+  "engines": {
+    "node": ">=6.4.0"
+  },
   "description": "A module for creating n-dimensional vector types that support swizzling.",
   "keywords": [
     "math",
@@ -24,12 +27,13 @@
       "docs"
     ]
   },
-  "author": "Bryce Wilson",
+  "author": "Bryce Wilson <gyroscope15@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Zunawe/vecn"
   },
+  "homepage": "https://zunawe.github.io/vecn/",
   "devDependencies": {
     "assert": "^1.4.1",
     "coveralls": "^3.0.1",
