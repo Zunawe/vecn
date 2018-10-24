@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/Zunawe/vecn.svg?branch=master)](https://travis-ci.org/Zunawe/vecn) [![Coverage Status](https://coveralls.io/repos/github/Zunawe/vecn/badge.svg?branch=master)](https://coveralls.io/github/Zunawe/vecn?branch=master) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Allows for the creation of vectors of arbitrary dimension that are also JavaScript `Arrays`. These arrays are fixed-length and accept only numbers as input, though they generally decay gracefully into regular `Arrays`. For example, you're allowed to use `map`, `reduce`, `concat`, and other `Array` methods, and if the result is a valid `vec`, a `vec` will be returned. Otherwise, you'll get back a standard `Array` with the new elements. These are specifically overloaded methods, so experimental, custom, and rebound methods aren't guaranteed to work.
+Allows for the creation of vectors of arbitrary dimension that are also JavaScript `Arrays`. There are a number of useful numeric methods that can be performed once you make a vector such as componentwise arithmetic, dot products, normalization, etc... Though the vectors are directly mutable via `Array` methods and direct setting of values, all methods behave in an immutable way (i.e. they create and return a new object). These arrays are fixed-length and accept only numbers as input, though they generally decay gracefully into regular `Arrays`. For example, you're allowed to use `map`, `reduce`, `concat`, and other `Array` methods, and if the result is a valid `vec`, a `vec` will be returned. Otherwise, you'll get back a standard `Array` with the new elements. These are specifically overloaded methods, so experimental, custom, and rebound methods aren't guaranteed to work.
 
 ## Install
 
@@ -39,7 +39,35 @@ console.log(v)
 [ 1, 2, 3, 4, 5 ]
 ```
 
-For a more in-depth description of available vector methods, see the [documentation](https://zunawe.github.io/vecn).
+Once you have a vector, here are some things you can do:
+```js
+magnitude
+approximatelyEquals()
+argmax()
+argmin()
+choose()
+copy()
+div()
+dot()
+equals()
+max()
+min()
+minus()
+neg()
+normalize()
+plus()
+pnorm()
+pow()
+reflect()
+sum()
+times()
+```
+And of course these methods can be chained
+```js
+v1.plus(v2).times(v3).normalize().neg()
+```
+
+For a more in-depth description of available vector methods and how to use them, see the [documentation](https://zunawe.github.io/vecn).
 
 #### Swizzling
 
